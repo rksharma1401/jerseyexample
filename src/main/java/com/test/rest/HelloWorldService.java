@@ -27,9 +27,8 @@ public class HelloWorldService {
 		
 	}
 	
-	@GET
-	@POST
-	@Path("/")
+	@GET 
+	@Path("")
 	public Response info() {
 
 		String output = "Hello from jersey !!!!!!!!!!!!!";
