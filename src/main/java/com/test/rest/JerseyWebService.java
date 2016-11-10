@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
  * @author ravikant.sharma
  * Nov 9, 2016
  */
-@Path("hello")
-public class HelloWorldService {
+@Path("jws")
+public class JerseyWebService {
 
 	@GET
 	@Path("say/{param}")
