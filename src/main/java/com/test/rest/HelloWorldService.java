@@ -29,10 +29,10 @@ public class HelloWorldService {
 	
 	@GET 
 	@Path("")
-	public Response info() {
+	public Response info() throws MissingFileException {
 
 		String output = "Hello from jersey !!!!!!!!!!!!!";
-
+		//throw new 	MissingFileException();
 		return Response.status(200).entity(output).build();
 		
 	}
