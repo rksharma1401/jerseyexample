@@ -22,8 +22,7 @@ public class SecurityInterceptor implements ContainerRequestFilter, ContainerRes
 		if(reqCtx.getHeaderString("startTime")!=null)
 		startTime = Long.parseLong(reqCtx.getHeaderString("startTime")); 
 		respCtx.getHeaders().add("ProcessingTime",
-				String.valueOf(System.currentTimeMillis() - startTime) + " millisecs");
-
+				String.valueOf(System.currentTimeMillis() - startTime) + " millisecs"); 
 	}
 
 	@Override
