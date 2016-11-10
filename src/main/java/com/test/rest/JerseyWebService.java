@@ -55,7 +55,8 @@ public class JerseyWebService {
 	@GET
 	@Produces("application/pdf")
 	@Path("getPDF")
-	public StreamingOutput streamExample() {
+	//public StreamingOutput streamExample() {
+	public Response streamExample() {
 	  StreamingOutput stream = new StreamingOutput() {
 	    @Override
 	    public void write(OutputStream os) throws IOException, WebApplicationException {
@@ -71,7 +72,8 @@ public class JerseyWebService {
 			}
 	    }
 	  };
-	  return stream;
+	//  return stream;
+	  return Response.ok(stream).build();
 	}
 
 	 
