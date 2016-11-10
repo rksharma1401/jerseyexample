@@ -16,6 +16,8 @@ public class SecurityInterceptor implements ContainerRequestFilter, ContainerRes
 
 	@Override
 	public void filter(ContainerRequestContext reqCtx, ContainerResponseContext respCtx) throws IOException {
+		/*com.sun.research.ws.wadl.Response l = null; 
+		l.getRepresentationOrFault();*/
 		System.out.println("Adding start time in request headers");
 
 		System.out.println("Adding ProcessingTime in response headers"); 
