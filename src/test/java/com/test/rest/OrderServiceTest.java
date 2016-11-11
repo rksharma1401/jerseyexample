@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Application;
 
-public class OrderServiceTest extends JerseyTest {/*
+public class OrderServiceTest extends JerseyTest {
 
     @Override
     protected Application configure() {
@@ -25,7 +25,7 @@ public class OrderServiceTest extends JerseyTest {/*
 
     @Test
     public void ordersFixedPathTest() {
-        String response = target("rest/orders/summary").request().get(String.class);
+        String response = target("orders/summary").request().get(String.class);
         Assert.assertTrue("orders summary".equals(response));
     }
-*/}
+}

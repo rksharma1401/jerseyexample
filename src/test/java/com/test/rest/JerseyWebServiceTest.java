@@ -30,19 +30,19 @@ public class JerseyWebServiceTest extends JerseyTest {
 		return new ResourceConfig(JerseyWebService.class);
 	}
 
-	@Override
+	/*@Override
 	protected URI getBaseUri() {
 		return UriBuilder.fromUri("http://localhost/").port(8080).build();
-	}
+	}*/
 
-	@Override
+	/*@Override
 	protected DeploymentContext configureDeployment() {
 		forceSet(TestProperties.CONTAINER_PORT, "0");
 		return ServletDeploymentContext.builder(new com.test.config.ApplicationConfig())
 				.initParam(ServletProperties.JAXRS_APPLICATION_CLASS,
 						JerseyWebServiceTest.class.getName())
 				.build();
-	}
+	}*/
 
 	@Test
 	public void testgetMap() {
