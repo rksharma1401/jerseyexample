@@ -4,58 +4,76 @@ package com.test.rest;/**
 
 import static org.junit.Assert.assertEquals;
 
-import java.net.URI;
-
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletProperties;
-import org.glassfish.jersey.test.DeploymentContext;
 import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.ServletDeploymentContext;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
+
+import com.test.service.UserLoginService;
+
+import mockit.Mock;
+import mockit.MockUp;
 
 /**
  * @author ravikant.sharma Nov 9, 2016
  */
 public class JerseyWebServiceTest extends JerseyTest {
+	/*
+	 * @Override protected URI getBaseUri() { return
+	 * UriBuilder.fromUri("http://localhost/").port(8080).build(); }
+	 */
+
+	/*
+	 * @Override protected DeploymentContext configureDeployment() {
+	 * forceSet(TestProperties.CONTAINER_PORT, "0"); return
+	 * ServletDeploymentContext.builder(new com.test.config.ApplicationConfig())
+	 * .initParam(ServletProperties.JAXRS_APPLICATION_CLASS,
+	 * JerseyWebServiceTest.class.getName()) .build(); }
+	 */
 
 	@Override
 	protected Application configure() {
-		enable(TestProperties.LOG_TRAFFIC);
-		enable(TestProperties.DUMP_ENTITY);
+		// enable(TestProperties.LOG_TRAFFIC);
+		// enable(TestProperties.DUMP_ENTITY);
 		return new ResourceConfig(JerseyWebService.class);
 	}
 
-	/*@Override
-	protected URI getBaseUri() {
-		return UriBuilder.fromUri("http://localhost/").port(8080).build();
-	}*/
-
-	/*@Override
-	protected DeploymentContext configureDeployment() {
-		forceSet(TestProperties.CONTAINER_PORT, "0");
-		return ServletDeploymentContext.builder(new com.test.config.ApplicationConfig())
-				.initParam(ServletProperties.JAXRS_APPLICATION_CLASS,
-						JerseyWebServiceTest.class.getName())
-				.build();
-	}*/
-
 	@Test
-	public void testgetMap() {
-		final String hello = target("jws/getMap").request().get(String.class); 
-		assertEquals("{\"2\":\"two\",\"1\":\"One\"}", hello);
+	public void testisUserValid() {
+		new MockUp<UserLoginService>() {
+
+			// Redefine the method here
+			// But With No static modifier
+			@Mock
+			public boolean isValid(int id) throws InterruptedException {
+				if (id > 0)
+					return true;
+				else
+					return false;
+			}
+
+		};
+		final Boolean response = target("jws/checkValidity/-1").request().get(Boolean.class);
+
+		assertEquals(false, (Boolean) response);
+		// when(UserLoginService.isValid(-1)).thenReturn(false);
+		// when(UserLoginService.isValid(5)).thenReturn(false);
 
 	}
-	
-	
-	@Test
-	public void testInfo() {
-		final Response hello = target("jws/").request().get(Response.class); 
-		assertEquals(200, hello.getStatus());
 
-	}
+	/*
+	 * @Test public void testgetMap() { final String hello =
+	 * target("jws/getMap").request().get(String.class);
+	 * assertEquals("{\"2\":\"two\",\"1\":\"One\"}", hello);
+	 * 
+	 * }
+	 * 
+	 * @Test public void testInfo() { final Response hello =
+	 * target("jws/").request().get(Response.class); assertEquals(200,
+	 * hello.getStatus());
+	 * 
+	 * }
+	 */
 }

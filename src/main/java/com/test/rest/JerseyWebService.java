@@ -23,12 +23,30 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.test.service.UserLoginService;
 
 /**
  * @author ravikant.sharma Nov 9, 2016
  */
 @Path("jws")
 public class JerseyWebService {
+
+	private UserLoginService service;
+	
+
+	public void setService(UserLoginService service) {
+		this.service = service;
+	}
+
+	@GET
+	@Path("checkValidity/{param}")
+	public boolean isUserValid(@PathParam("param") String msg) throws NumberFormatException, InterruptedException {
+
+		boolean isValid=service.isValid(Integer.parseInt(msg));
+
+		return isValid;
+
+	}
 
 	@GET
 	@Path("say/{param}")
@@ -49,60 +67,57 @@ public class JerseyWebService {
 		return Response.status(200).entity(output).build();
 
 	}
+
 	@GET
 	@Produces("application/pdf")
 	@Path("getPDF")
-	//public StreamingOutput streamExample() {
+	// public StreamingOutput streamExample() {
 	public Response streamExample() {
-	  StreamingOutput stream = new StreamingOutput() {
-	    @Override
-	    public void write(OutputStream os) throws IOException, WebApplicationException {
-	    	Document document = new Document();
-	    	try {
-			PdfWriter.getInstance(document, os);			
-	        document.open();
-	        document.add(new Paragraph(new Date().toString())); 
-	        for(int i=0;i<99999;i++)
-	        	 document.add(new Paragraph("howtodoinjava.com"));
-	        document.add(new Paragraph(new Date().toString()));
-	        document.close();
-	    	} catch (DocumentException e) {
-				e.printStackTrace();
+		StreamingOutput stream = new StreamingOutput() {
+			@Override
+			public void write(OutputStream os) throws IOException, WebApplicationException {
+				Document document = new Document();
+				try {
+					PdfWriter.getInstance(document, os);
+					document.open();
+					document.add(new Paragraph(new Date().toString()));
+					for (int i = 0; i < 99999; i++)
+						document.add(new Paragraph("howtodoinjava.com"));
+					document.add(new Paragraph(new Date().toString()));
+					document.close();
+				} catch (DocumentException e) {
+					e.printStackTrace();
+				}
 			}
-	    }
-	  };
-	//  return stream;
-	  return Response.ok(stream).build();
+		};
+		// return stream;
+		return Response.ok(stream).build();
 	}
-	
+
 	@GET
 	@Produces("application/pdf")
 	@Path("downlaodPDF")
-	//public StreamingOutput streamExample() {
+	// public StreamingOutput streamExample() {
 	public Response downlaodPDF() {
-	  StreamingOutput stream = new StreamingOutput() {
-	    @Override
-	    public void write(OutputStream os) throws IOException, WebApplicationException {
-	    	Document document = new Document();
-	    	try {
-			PdfWriter.getInstance(document, os);			
-	        document.open();
-	        document.add(new Paragraph("howtodoinjava.com"));
-	        document.add(new Paragraph(new Date().toString()));
-	        document.close();
-	    	} catch (DocumentException e) {
-				e.printStackTrace();
+		StreamingOutput stream = new StreamingOutput() {
+			@Override
+			public void write(OutputStream os) throws IOException, WebApplicationException {
+				Document document = new Document();
+				try {
+					PdfWriter.getInstance(document, os);
+					document.open();
+					document.add(new Paragraph("howtodoinjava.com"));
+					document.add(new Paragraph(new Date().toString()));
+					document.close();
+				} catch (DocumentException e) {
+					e.printStackTrace();
+				}
 			}
-	    }
-	  };
-	//  return stream;
-	//  return Response.ok(stream).build();
-	  return Response.ok(stream)
-	            .header("Content-Disposition",
-	                    "attachment; filename=hwllo.pdf").build();
+		};
+		// return stream;
+		// return Response.ok(stream).build();
+		return Response.ok(stream).header("Content-Disposition", "attachment; filename=hwllo.pdf").build();
 	}
-
-	 
 
 	@GET
 	@Path("getMap")
