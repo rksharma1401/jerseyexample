@@ -5,10 +5,10 @@ package com.test.rest;/**
 import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
 
 import com.test.service.UserLoginService;
@@ -63,17 +63,17 @@ public class JerseyWebServiceTest extends JerseyTest {
 
 	}
 
-	/*
-	 * @Test public void testgetMap() { final String hello =
-	 * target("jws/getMap").request().get(String.class);
-	 * assertEquals("{\"2\":\"two\",\"1\":\"One\"}", hello);
-	 * 
-	 * }
-	 * 
-	 * @Test public void testInfo() { final Response hello =
-	 * target("jws/").request().get(Response.class); assertEquals(200,
-	 * hello.getStatus());
-	 * 
-	 * }
-	 */
+	@Test
+	public void testgetMap() {
+		final String hello = target("jws/getMap").request().get(String.class);
+		assertEquals("{\"2\":\"two\",\"1\":\"One\"}", hello);
+
+	}
+
+	@Test
+	public void testInfo() {
+		final Response hello = target("jws/").request().get(Response.class);
+		assertEquals(200, hello.getStatus());
+	}
+
 }
