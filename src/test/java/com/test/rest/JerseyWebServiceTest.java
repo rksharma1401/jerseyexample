@@ -9,6 +9,9 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
+import org.glassfish.jersey.test.jdkhttp.JdkHttpServerTestContainerFactory;
+import org.glassfish.jersey.test.spi.TestContainerException;
+import org.glassfish.jersey.test.spi.TestContainerFactory;
 import org.junit.Test;
 
 import com.test.service.UserLoginService;
@@ -33,6 +36,8 @@ public class JerseyWebServiceTest extends JerseyTest {
 	 * JerseyWebServiceTest.class.getName()) .build(); }
 	 */
 
+	private static JdkHttpServerTestContainerFactory containerFactory;
+	 
 	@Override
 	protected Application configure() {
 		// enable(TestProperties.LOG_TRAFFIC);
