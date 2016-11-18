@@ -32,12 +32,15 @@ import com.test.service.UserLoginService;
  */
 @Path("jws")
 public class JerseyWebService {
-
-	@Singleton
+	Date dt=null;
+	public JerseyWebService(){
+	 dt=new Date();
+	} 
+	
+	
 	@GET
 	@Path("getInitDate")
-	public String getInitDate(){
-		Date dt=new Date();
+	public String getInitDate(){ 
 		return dt.toString();
 	}
 	@GET
