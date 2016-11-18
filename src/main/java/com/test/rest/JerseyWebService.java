@@ -69,8 +69,11 @@ public class JerseyWebService {
 	public Response info()  {
 		String output = "Hello from jersey !!!!!!!!!!!!!";
 		 	CacheControl cc = new CacheControl();
-		    cc.setMaxAge(86400);
+		    cc.setMaxAge(120);
 		    cc.setPrivate(false);
+		    cc.setNoStore(false);
+		    cc.setNoTransform(false);
+		    cc.setNoCache(false);;
 		    System.out.println("in info");
 		    ResponseBuilder builder = Response.ok(output);
 		    builder.cacheControl(cc);
