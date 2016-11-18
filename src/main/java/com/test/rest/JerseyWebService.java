@@ -15,6 +15,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -45,6 +47,36 @@ public class JerseyWebService {
 	public String getInitDate(){ 
 		return dt.toString();
 	}
+	
+	  
+	
+	
+	@Path("/resource")
+	public class AsyncResource {
+	    @GET
+	    public void asyncGet(@Suspended final AsyncResponse asyncResponse) {
+	 
+	        new Thread(new Runnable() {
+	            @Override
+	            public void run() {
+	                String result = veryExpensiveOperation();
+	                asyncResponse.resume(result);
+	            }
+
+				private String veryExpensiveOperation() {
+					 try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					return "Done";
+				}
+	  
+	        }).start();
+	    }
+	}
+	
+	
 	@GET
 	@Path("checkValidity/{param}")
 	public boolean isUserValid(@PathParam("param") String msg) throws NumberFormatException, InterruptedException {
