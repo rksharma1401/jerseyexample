@@ -31,18 +31,11 @@ import com.test.service.UserLoginService;
 @Path("jws")
 public class JerseyWebService {
 
-	private UserLoginService service;
-	
-
-	public void setService(UserLoginService service) {
-		this.service = service;
-	}
-
 	@GET
 	@Path("checkValidity/{param}")
 	public boolean isUserValid(@PathParam("param") String msg) throws NumberFormatException, InterruptedException {
 
-		boolean isValid=service.isValid(Integer.parseInt(msg));
+		boolean isValid=UserLoginService.isValid(Integer.parseInt(msg));
 
 		return isValid;
 
