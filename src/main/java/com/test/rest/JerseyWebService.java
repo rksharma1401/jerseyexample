@@ -53,6 +53,7 @@ public class JerseyWebService {
 	}
 
 	@GET @POST 
+	@Path("/")
 	public Response info() throws MissingFileException {
 
 		String output = "Hello from jersey !!!!!!!!!!!!!";
