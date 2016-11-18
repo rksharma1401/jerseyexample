@@ -51,8 +51,7 @@ public class JerseyWebService {
 
 	}
 
-	@GET
-	@Path("")
+	@GET 
 	public Response info() throws MissingFileException {
 
 		String output = "Hello from jersey !!!!!!!!!!!!!";
