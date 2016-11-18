@@ -11,13 +11,14 @@ import java.util.Map;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
 
 import com.google.gson.Gson;
@@ -65,11 +66,15 @@ public class JerseyWebService {
 	}
 
 	@GET 
-	public Response info() throws MissingFileException {
-
+	public Response info()  {
 		String output = "Hello from jersey !!!!!!!!!!!!!";
-		// throw new MissingFileException();
-		return Response.status(200).entity(output).build();
+		 	CacheControl cc = new CacheControl();
+		    cc.setMaxAge(86400);
+		    cc.setPrivate(false);
+		    System.out.println("in info");
+		    ResponseBuilder builder = Response.ok(output);
+		    builder.cacheControl(cc);
+		    return builder.build();
 
 	}
 
