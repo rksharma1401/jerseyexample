@@ -51,8 +51,7 @@ public class JerseyWebService {
 	  
 	
 	
-	@Path("/resource")
-	public class AsyncResource {
+	@Path("/resource") 
 	    @GET
 	    public void asyncGet(@Suspended final AsyncResponse asyncResponse) {
 	 
@@ -73,7 +72,6 @@ public class JerseyWebService {
 				}
 	  
 	        }).start();
-	    }
 	}
 	
 	
