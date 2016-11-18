@@ -30,6 +30,7 @@ import com.test.service.UserLoginService;
 /**
  * @author ravikant.sharma Nov 9, 2016
  */
+@Singleton
 @Path("jws")
 public class JerseyWebService {
 	Date dt=null;
