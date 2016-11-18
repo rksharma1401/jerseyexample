@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -32,6 +33,13 @@ import com.test.service.UserLoginService;
 @Path("jws")
 public class JerseyWebService {
 
+	@Singleton
+	@GET
+	@Path("getInitDate")
+	public String getInitDate(){
+		Date dt=new Date();
+		return dt.toString();
+	}
 	@GET
 	@Path("checkValidity/{param}")
 	public boolean isUserValid(@PathParam("param") String msg) throws NumberFormatException, InterruptedException {
@@ -52,8 +60,7 @@ public class JerseyWebService {
 
 	}
 
-	@GET @POST 
-	@Path("/")
+	@GET 
 	public Response info() throws MissingFileException {
 
 		String output = "Hello from jersey !!!!!!!!!!!!!";
