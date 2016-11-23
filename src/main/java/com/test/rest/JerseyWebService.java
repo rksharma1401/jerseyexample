@@ -19,6 +19,7 @@ import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
@@ -91,8 +92,13 @@ public class JerseyWebService {
 
 		String output = "Jersey say : " + msg;
 
-		return Response.status(200).entity(output).build();
-
+		return Response.status(200).entity(output).cookie(
+			        new NewCookie(
+			            "userAccessToken", "token", "/", "", 
+			            "what is this", 3600, false
+			        )
+			    ).build(); 
+			    
 	}
 
 	@GET 
