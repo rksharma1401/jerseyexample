@@ -91,13 +91,15 @@ public class JerseyWebService {
 	public Response getMsg(@PathParam("param") String msg) {
 
 		String output = "Jersey say : " + msg;
-
-		return Response.status(200).entity(output).cookie(
+		return Response.status(200).entity(output)
+				.cookie(
 			        new NewCookie(
 			            "userAccessToken", "token", "/", "", 
 			            "what is this", 3600, false
 			        )
-			    ).build(); 
+			    )
+				//.header("Set-Cookie", "userAccessToken=toke;lang=en-US; Path=/; Domain=localhost")
+				.build(); 
 			    
 	}
 
