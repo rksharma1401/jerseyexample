@@ -174,5 +174,12 @@ public class JerseyWebService {
 		return jsonString;
 
 	}
+	
+	@GET
+	@Path("test401withcontent")
+	public Response get401TestWithContent()
+	{
+	    return Response.status(401).entity("return some text").build();     
+	}
 
 }
