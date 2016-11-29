@@ -92,13 +92,13 @@ public class JerseyWebService {
 
 		String output = "Jersey say : " + msg;
 		return Response.status(200).entity(output)
-				.cookie(
+				/*.cookie(
 			        new NewCookie(
 			            "userAccessToken", "token", "/", "", 
 			            "what is this", 3600, false
 			        )
-			    )
-				//.header("Set-Cookie", "userAccessToken=toke;lang=en-US; Path=/; Domain=localhost")
+			    )*/
+				.header("Set-Cookie", "userAccessToken=toke;lang=en-US; Path=/; Domain=localhost")
 				.build(); 
 			    
 	}

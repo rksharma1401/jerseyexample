@@ -25,15 +25,16 @@ public class ClientAsync {
 	public static void main(String[] args) throws Exception {
 		Client client = ClientBuilder.newClient();
 		// System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
-
 		/*
-		 * Response response = client.target(
-		 * "http://jerseyexample-ravikant.rhcloud.com/rest/jws/resource").
-		 * request().get(); System.out.println(response.getEntity());
-		 */
+		 
+		  Response response = client.target(
+		  "http://jerseyexample-ravikant.rhcloud.com/rest/jws/test401withcontent").
+		 request().get(); System.out.println(response.readEntity(String.class));
+		 
+		 System.exit(0); */
 		final long startTime = new Date().getTime();
 
-		responseFuture = client.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/resource").request().async()
+		responseFuture = client.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/test401withcontent").request().async()
 				.get(new InvocationCallback<Response>() {
 
 					@Override
@@ -55,11 +56,11 @@ public class ClientAsync {
 
 		// System.out.println(responseFuture.cancel(true));
 
-		Future<String> future1 = client.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/resource").request()
+		Future<String> future1 = client.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/test401withcontent").request()
 				.async().get(String.class);
-		try {
-
-			System.err.println("future1 Response" + future1.get(6000, TimeUnit.MILLISECONDS));
+		try { 
+			 System.err.println("future1 Response" + future1.get(6000, TimeUnit.MILLISECONDS));
+			 
 		} catch (Exception e) { 
 			System.err.println(e.getMessage());
 			future1.cancel(true); // this method will stop
