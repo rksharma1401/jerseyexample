@@ -5,8 +5,10 @@ package com.test.rest;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Singleton;
@@ -19,7 +21,6 @@ import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
@@ -30,6 +31,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.test.service.UserLoginService;
+import com.test.vo.User;
 
 /**
  * @author ravikant.sharma Nov 9, 2016
@@ -170,6 +172,22 @@ public class JerseyWebService {
 		return Response.ok(stream).header("Content-Disposition", "attachment; filename=hwllo.pdf").build();
 	}
 
+	@GET
+	@Path("getUserList") 
+	@Produces("application/json")
+	public Response getDataNoZip() {
+			List<com.test.vo.User> llstUser=new ArrayList<User>();
+		for(int i=0;i<50;i++){
+			User r=new User();
+			r.setCompany("wp");
+			r.setPost("Devloper");
+			r.setName("userName");
+			llstUser.add(r);
+		}
+		return Response.status(200).entity(llstUser).build();
+
+	}
+	
 	@GET
 	@Path("getMap")
 	@Produces(MediaType.APPLICATION_JSON)
