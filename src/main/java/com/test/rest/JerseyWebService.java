@@ -175,7 +175,7 @@ public class JerseyWebService {
 
 	@GET
 	@Path("getUserList") 
-	//@Produces("application/json")
+	@Produces("application/json")
 	public Response getDataNoZip() {
 		ArrayList/*<com.test.vo.User>*/ llstUser=new ArrayList<User>();
 		for(int i=0;i<50;i++){
