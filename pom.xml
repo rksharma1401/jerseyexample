@@ -90,12 +90,25 @@
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>2.24.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
 			<version>5.0.6</version>
+		</dependency>
+
+		<!-- Reactive Web Service -->
+		<!-- <dependency> <groupId>org.glassfish.jersey.ext.rx</groupId> <artifactId>jersey-rx-client</artifactId> 
+			<version>2.24.1</version> </dependency> -->
+		<dependency>
+			<groupId>org.glassfish.jersey.ext.rx</groupId>
+			<artifactId>jersey-rx-client-rxjava</artifactId>
+			<version>2.24.1</version>
 		</dependency>
 	</dependencies>
 	<build>
