@@ -24,8 +24,15 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.glassfish.jersey.client.rx.Rx;
+import org.glassfish.jersey.client.rx.rxjava.RxObservableInvoker;
+import org.glassfish.jersey.jackson.JacksonFeature;
+
 import javax.ws.rs.core.StreamingOutput;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -33,6 +40,8 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.test.service.UserLoginService;
 import com.test.vo.User;
+
+import rx.functions.Action1;
 
 /**
  * @author ravikant.sharma Nov 9, 2016
@@ -78,6 +87,40 @@ public class JerseyWebService {
 	        }).start();
 	}
 	
+	static List<User> pojos =null;
+	@GET
+	@Path("getDataAsClient")
+	public Response getDataAsClient() throws InterruptedException{
+		
+		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class)
+				.target("http://javaresteasydemo-ravikant.rhcloud.com/rest/hello/getDataNoZip/")
+				//.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList")
+				.register(JacksonFeature.class).request().header("key", "12345").rx().get();
+
+		observable.subscribe(new Action1<Response>() {
+
+			@Override
+			public void call(Response response) {
+				try {
+					System.out.println(" Inside call ");
+					// System.out.println(response.readEntity(List.class));
+					List<java.util.LinkedHashMap> lst = response.readEntity(List.class);
+					ObjectMapper ob = new ObjectMapper();
+					 pojos = ob.convertValue(lst, new TypeReference<List<User>>() {
+					});
+					for (User user : pojos) {
+						System.out.println(user.getPost());
+					} 
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				System.exit(0);
+			}
+
+		});
+		Thread.sleep(50 * 1000);
+		return Response.status(200).entity(pojos).build();
+	}
 	
 	@GET
 	@Path("checkValidity/{param}")
