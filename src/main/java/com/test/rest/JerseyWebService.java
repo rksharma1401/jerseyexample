@@ -87,7 +87,7 @@ public class JerseyWebService {
 	        }).start();
 	}
 	
-	static List<User> pojos =null;
+	static List<User> pojos =new ArrayList<User>();
 	@GET
 	@Path("getDataAsClient")
 	public Response getDataAsClient() throws InterruptedException{
@@ -102,23 +102,17 @@ public class JerseyWebService {
 			@Override
 			public void call(Response response) {
 				try {
-					System.out.println(" Inside call ");
-					// System.out.println(response.readEntity(List.class));
-					List<java.util.LinkedHashMap> lst = response.readEntity(List.class);
+					System.out.println(" Inside call "); 
 					ObjectMapper ob = new ObjectMapper();
-					 pojos = ob.convertValue(lst, new TypeReference<List<User>>() {
+					 pojos = ob.convertValue(response.readEntity(List.class), new TypeReference<List<User>>() {
 					});
-					for (User user : pojos) {
-						System.out.println(user.getPost());
-					} 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				System.exit(0);
 			}
 
 		});
-		Thread.sleep(50 * 1000);
+		Thread.sleep(10 * 1000);
 		return Response.status(200).entity(pojos).build();
 	}
 	
