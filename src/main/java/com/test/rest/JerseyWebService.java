@@ -90,6 +90,7 @@ public class JerseyWebService {
 	static List<User> pojos =new ArrayList<User>();
 	@GET
 	@Path("getDataAsClient")
+	@Produces("application/json")
 	public Response getDataAsClient() throws InterruptedException{
 		
 		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class)
