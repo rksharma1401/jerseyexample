@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
@@ -133,7 +134,12 @@ public class JerseyWebService {
 		  Response response = client.target(
 				  url
 		  ). request().get(); 
-		return response.readEntity(String.class);
+		  String res=response.readEntity(String.class)
+				  .replaceAll(Pattern.quote("["), "")
+				  .replaceAll(Pattern.quote("\""), "")
+				  .split(",")[0]
+				  ;
+		return res;
 	}
 	
 	@GET
