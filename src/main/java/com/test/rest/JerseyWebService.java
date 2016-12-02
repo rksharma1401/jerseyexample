@@ -91,8 +91,7 @@ public class JerseyWebService {
 	@GET
 	@Path("getDataAsClient")
 	@Produces("application/json")
-	public Response getDataAsClient() throws InterruptedException{
-		
+	public Response getDataAsClient() throws InterruptedException{ 
 		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class)
 				.target("http://javaresteasydemo-ravikant.rhcloud.com/rest/hello/getDataNoZip/")
 				//.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList")
@@ -105,8 +104,10 @@ public class JerseyWebService {
 				try {
 					System.out.println(" Inside call "); 
 					ObjectMapper ob = new ObjectMapper();
-					 pojos = ob.convertValue(response.readEntity(List.class), new TypeReference<List<User>>() {
-					});
+					synchronized(pojos){
+						pojos = ob.convertValue(response.readEntity(List.class), new TypeReference<List<User>>() {
+						});
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
