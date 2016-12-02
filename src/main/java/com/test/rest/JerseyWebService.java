@@ -127,8 +127,8 @@ public class JerseyWebService {
 	public String translate(@PathParam("param") String msg){
 		Client client = ClientBuilder.newClient();
 		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
-	            + "en" + "&tl=" + "hi" + "&dt=t&q=" +  msg;
-		url=URLEncoder.encode(url);
+	            + "en" + "&tl=" + "hi" + "&dt=t&q=" +  URLEncoder.encode(msg);
+	 
 	   System.out.println(url);
 		  Response response = client.target(
 				  url
