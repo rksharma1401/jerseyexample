@@ -5,6 +5,7 @@ package com.test.rest;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -127,6 +128,7 @@ public class JerseyWebService {
 		Client client = ClientBuilder.newClient();
 		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
 	            + "en" + "&tl=" + "hi" + "&dt=t&q=" +  msg;
+		url=URLEncoder.encode(url);
 	   System.out.println(url);
 		  Response response = client.target(
 				  url
