@@ -20,6 +20,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -174,9 +175,9 @@ public class JerseyWebService {
 
 	@GET
 	@Path("getUserList") 
-	@Produces("application/json")
+	//@Produces("application/json")
 	public Response getDataNoZip() {
-			List<com.test.vo.User> llstUser=new ArrayList<User>();
+		ArrayList/*<com.test.vo.User>*/ llstUser=new ArrayList<User>();
 		for(int i=0;i<50;i++){
 			User r=new User();
 			r.setCompany("wp");
@@ -184,7 +185,10 @@ public class JerseyWebService {
 			r.setName("userName");
 			llstUser.add(r);
 		}
-		return Response.status(200).entity(llstUser).build();
+		GenericEntity<ArrayList> list = new GenericEntity<ArrayList> (llstUser) {
+        };
+        GenericEntity<List<User>> users = new GenericEntity<List<User>>(llstUser) {};  
+		return Response.status(200).entity(users).build();
 
 	}
 	
