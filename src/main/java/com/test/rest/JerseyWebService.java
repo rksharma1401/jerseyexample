@@ -17,6 +17,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.CacheControl;
@@ -116,6 +118,20 @@ public class JerseyWebService {
 		});
 		Thread.sleep(10 * 1000);
 		return Response.status(200).entity(pojos).build();
+	}
+	
+	@GET
+	@Path("toHindi/{param : .+}")
+	
+	public String translate(@PathParam("param") String msg){
+		Client client = ClientBuilder.newClient();
+		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
+	            + "en" + "&tl=" + "hi" + "&dt=t&q=" +  msg;
+	   System.out.println(url);
+		  Response response = client.target(
+				  url
+		  ). request().get(); 
+		return response.readEntity(String.class);
 	}
 	
 	@GET
