@@ -283,9 +283,10 @@ public class JerseyWebService {
 		List<User> responses = new ArrayList<>();
 	    responses.add(new User());
 	    responses.add(new User());
-	    responses.add(new User()); 
+	    responses.add(new User());
+	    GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
 	    
-		return Response.status(200).entity(responses).build();
+		return Response.status(200).entity(list).build();
 		
 
 	}
