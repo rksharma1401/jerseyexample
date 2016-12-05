@@ -280,7 +280,7 @@ public class JerseyWebService {
 	    responses.add(new User());
 		GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
 		if("list".equals(msg))
-			return Response.status(200).entity(responses).build();
+			return Response.status(200).entity(list).build();
 		User u=new User();
 		u.setName("Developer");
 		return Response.status(200).entity(u).build();
