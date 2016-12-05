@@ -273,20 +273,17 @@ public class JerseyWebService {
 	@Path("getObj/{param}") 
 	@Produces("application/json")
 	public Response getObj(@PathParam("param") String msg) {
-		User u=new User();
-		u.setName("Developer");
-		
-		
-		if("list".equals(msg))
-			return Response.status(200).entity(u).build();
-		
+
 		List<User> responses = new ArrayList<>();
 	    responses.add(new User());
 	    responses.add(new User());
 	    responses.add(new User());
-	    GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
-	    
-		return Response.status(200).entity(list).build();
+		GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
+		if("list".equals(msg))
+			return Response.status(200).entity(responses).build();
+		User u=new User();
+		u.setName("Developer");
+		return Response.status(200).entity(u).build();
 		
 
 	}
