@@ -274,13 +274,12 @@ public class JerseyWebService {
 	@Produces("application/json")
 	public Response getObj(@PathParam("param") String msg) {
 
-		List<User> responses = new ArrayList<>();
+		ListUser responses = new ListUser();
 	    responses.add(new User());
 	    responses.add(new User());
-	    responses.add(new User());
-		GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
+	    responses.add(new User()); 
 		if("list".equals(msg))
-			return Response.status(200).entity(list).build();
+			return Response.status(200).entity(responses).build();
 		User u=new User();
 		u.setName("Developer");
 		return Response.status(200).entity(u).build();
@@ -310,3 +309,4 @@ public class JerseyWebService {
 	}
 
 }
+class ListUser extends ArrayList<User> {}
