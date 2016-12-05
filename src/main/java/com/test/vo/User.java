@@ -12,6 +12,10 @@ public class User {
 	private String name; 
 	private String company;	
 	private String post;
+	public User(){}
+	public User(String name){
+		this.name=name;
+	}
 	public String getName() {
 		return name;
 	}

@@ -274,10 +274,10 @@ public class JerseyWebService {
 	@Produces("application/json")
 	public Object getObj(@PathParam("param") String msg) {
 
-		List<Object> responses = new ArrayList<>();
-	    responses.add(new Object());
-	    responses.add(new Object());
-	    responses.add(new Object());
+		List<User> responses = new ArrayList<>();
+	    responses.add(new User());
+	    responses.add(new User());
+	    responses.add(new User());
 		GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
 		if("list".equals(msg))
 		return  responses;
