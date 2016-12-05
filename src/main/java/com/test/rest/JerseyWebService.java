@@ -269,6 +269,25 @@ public class JerseyWebService {
 
 	}
 	
+	@GET
+	@Path("getObj/{param}") 
+	@Produces("application/json")
+	public Object getObj(@PathParam("param") String msg) {
+
+		List<Object> responses = new ArrayList<>();
+	    responses.add(new Object());
+	    responses.add(new Object());
+	    responses.add(new Object());
+		GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
+		if("list".equals(msg))
+		return  responses;
+		User u=new User();
+		u.setName("Developer");
+		return u;
+		
+
+	}
+	
 	
 	@GET
 	@Path("getMap")
