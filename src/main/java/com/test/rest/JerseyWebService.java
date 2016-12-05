@@ -23,7 +23,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
@@ -272,7 +271,7 @@ public class JerseyWebService {
 	
 	@GET
 	@Path("getObj/{param}") 
-	@Produces(MediaType.MEDIA_TYPE_WILDCARD)
+	@Produces("application/json")
 	public Response getObj(@PathParam("param") String msg) {
 
 		ListUser responses = new ListUser();
