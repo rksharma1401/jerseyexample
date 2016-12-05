@@ -274,7 +274,7 @@ public class JerseyWebService {
 	@Produces("application/json")
 	public Response getObj(@PathParam("param") String msg) {
 
-		ListUser responses = new ListUser();
+		ArrayList responses = new ArrayList();
 	    responses.add(new User("1"));
 	    responses.add(new User("2"));
 	    responses.add(new User("3")); 
