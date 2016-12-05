@@ -256,6 +256,21 @@ public class JerseyWebService {
 	}
 	
 	@GET
+	@Path("getListRes") 
+	@Produces("application/json")
+	public Response getListResponse() {
+
+		List<Response> responses = new ArrayList<>();
+	    responses.add(Response.ok().build());
+	    responses.add(Response.notModified().build());
+	    responses.add(Response.noContent().build());
+		GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
+		return Response.status(200).entity(list).build();
+
+	}
+	
+	
+	@GET
 	@Path("getMap")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getMap() {
