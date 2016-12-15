@@ -91,6 +91,7 @@ public class JerseyWebService {
             c = ds.getConnection();
             s = c.createStatement();
            ResultSet result= s.executeQuery("select sysdate()");
+           if(result.next())
            response=  result.getString(0);
 		} catch (NamingException e) { 
 			response=e.getMessage();
