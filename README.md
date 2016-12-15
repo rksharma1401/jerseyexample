@@ -1,3 +1,3 @@
-The OpenShift `jbossews` cartridge documentation can be found at:
 
-http://openshift.github.io/documentation/oo_cartridge_guide.html#tomcat
+This is a project deployed on openshift at http://jerseyexample-ravikant.rhcloud.com
+Created for testing and learning jersey and jersey testing automatically
