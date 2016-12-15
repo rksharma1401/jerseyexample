@@ -94,6 +94,8 @@ public class JerseyWebService {
            ResultSet result= s.executeQuery("select sysdate()");
            if(result.next())
            response=  result.getString(1);
+           s.close();
+           c.close();
 		} catch (NamingException e) { 
 			response=e.getMessage();
 			e.printStackTrace();
