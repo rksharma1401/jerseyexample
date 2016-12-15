@@ -91,9 +91,9 @@ public class JerseyWebService {
             // Get Connection and Statement from DataSource
             c = ds.getConnection();
             s = c.createStatement();
-           ResultSet result= s.executeQuery("select sysdate()");
+           ResultSet result= s.executeQuery("show status where `variable_name` = 'Threads_connected'");
            if(result.next())
-           response=  result.getString(1);
+           response= "No of Threads_connected right now : " + result.getString(1);
            s.close();
            c.close();
 		} catch (NamingException e) { 
