@@ -93,7 +93,7 @@ public class JerseyWebService {
             s = c.createStatement();
            ResultSet result= s.executeQuery("show status where `variable_name` = 'Threads_connected'");
            if(result.next())
-           response= "No of Threads_connected right now : " + result.getString(1);
+           response= "No of Threads_connected right now : " + result.getString(2);
            s.close();
            c.close();
 		} catch (NamingException e) { 
