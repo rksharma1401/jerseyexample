@@ -3,14 +3,9 @@
  */
 package com.test.client;
 
-import java.util.ArrayList;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.test.vo.User;
 
 /**
  * @author ravikant.sharma
@@ -18,11 +13,10 @@ import com.test.vo.User;
  */
 public class ClientHindi {
 
-	public static void main(String[]args) {
-		//URL url="http://jerseyexample-ravikant.rhcloud.com/rest/jws/toHindi/Hello";
+	public static void main(String[]args) { 
 		Client client = ClientBuilder.newClient();
 		{
-			String url="http://jerseyexample-ravikant.rhcloud.com/rest/jws/toHindi/Hello";
+			String url="https://jerseyexample-ravikant.rhcloud.com/rest/jws/toHindi/Hello";
 			System.out.println(url);
 			Response response = client.target(url).request().get();
 			System.out.println("Response status code " + response.getStatus() + " received." + "\nMessage :"
