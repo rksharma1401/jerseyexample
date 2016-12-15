@@ -76,10 +76,11 @@ public class JerseyWebService {
 	  
 	@GET
     @Path("testDatabase")
-    public String testDatabase() {
+    public String testDatabase() throws ClassNotFoundException {
     	String response="inital";
     	 // Get DataSource from JNDI (defined in context.xml file)
         Context ctx;
+        Class.forName("com.mysql.jdbc.Driver");
 		try {
 			ctx = new InitialContext();
 		
