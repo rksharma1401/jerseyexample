@@ -6,6 +6,10 @@ package com.test.rest;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +18,10 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.inject.Singleton;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -66,7 +74,33 @@ public class JerseyWebService {
 	}
 	
 	  
-	
+	@GET
+    @Path("testDatabase")
+    public String testDatabase() {
+    	String response="inital";
+    	 // Get DataSource from JNDI (defined in context.xml file)
+        Context ctx;
+		try {
+			ctx = new InitialContext();
+		
+        DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/MySQLDS");
+        Connection c = null;
+        Statement s = null;
+ 
+            // Get Connection and Statement from DataSource
+            c = ds.getConnection();
+            s = c.createStatement();
+           ResultSet result= s.executeQuery("select sysdate()");
+           response=  result.getString(0);
+		} catch (NamingException e) { 
+			response=e.getMessage();
+			e.printStackTrace();
+		} catch (SQLException e) { 
+			response=e.getMessage();
+			e.printStackTrace();
+		}
+        return response;
+    }
 	
 	@Path("/resource") 
 	    @GET
