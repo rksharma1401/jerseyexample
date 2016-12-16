@@ -40,7 +40,8 @@
               type="javax.sql.DataSource"
               initialSize="11"
               maxActive="20"
-              maxIdle="11"
+              maxIdle="15"
+              minIdle="11"
               maxWait="10000"
               />
                
