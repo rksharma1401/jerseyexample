@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.client;
+package com.study.client;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;

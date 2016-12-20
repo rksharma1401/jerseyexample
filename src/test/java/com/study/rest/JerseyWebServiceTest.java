@@ -1,4 +1,4 @@
-package com.test.rest;/**
+package com.study.rest;/**
 						* 
 						*/
 
@@ -11,7 +11,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-import com.test.service.UserLoginService;
+import com.study.service.UserLoginService;
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -28,7 +28,7 @@ public class JerseyWebServiceTest extends JerseyTest {
 	/*
 	 * @Override protected DeploymentContext configureDeployment() {
 	 * forceSet(TestProperties.CONTAINER_PORT, "0"); return
-	 * ServletDeploymentContext.builder(new com.test.config.ApplicationConfig())
+	 * ServletDeploymentContext.builder(new study.config.ApplicationConfig())
 	 * .initParam(ServletProperties.JAXRS_APPLICATION_CLASS,
 	 * JerseyWebServiceTest.class.getName()) .build(); }
 	 */

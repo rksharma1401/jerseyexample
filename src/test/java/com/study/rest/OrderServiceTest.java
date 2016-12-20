@@ -1,4 +1,4 @@
-package com.test.rest;
+package com.study.rest;
 
 
 import org.glassfish.jersey.server.ResourceConfig;

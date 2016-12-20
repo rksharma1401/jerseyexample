@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.rest;
+package com.study.rest;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -50,8 +50,8 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.test.service.UserLoginService;
-import com.test.vo.User;
+import com.study.service.UserLoginService;
+import com.study.vo.User;
 
 import rx.functions.Action1;
 
@@ -278,7 +278,7 @@ public class JerseyWebService {
 	@Path("getUserList") 
 	@Produces("application/json")
 	public Response getDataNoZip() {
-		ArrayList/*<com.test.vo.User>*/ llstUser=new ArrayList<User>();
+		ArrayList/*<study.vo.User>*/ llstUser=new ArrayList<User>();
 		for(int i=0;i<50;i++){
 			User r=new User();
 			r.setCompany("wp");

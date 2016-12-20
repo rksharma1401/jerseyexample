@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.client;
+package com.study.client;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.test.vo.User;
+import com.study.vo.User;
 
 import rx.functions.Action1;
 

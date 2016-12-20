@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.service;
+package com.study.service;
 
 /**
  * @author ravikant.sharma Nov 11, 2016

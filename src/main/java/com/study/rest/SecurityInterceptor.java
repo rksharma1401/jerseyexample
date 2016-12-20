@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.rest;
+package com.study.rest;
 
 import java.io.IOException;
 

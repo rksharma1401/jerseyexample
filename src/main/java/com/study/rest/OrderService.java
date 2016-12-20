@@ -1,4 +1,4 @@
-package com.test.rest;
+package com.study.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

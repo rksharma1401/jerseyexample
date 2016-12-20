@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.test.vo;
+package com.study.vo;
 
 /**
  * @author ravikant.sharma
