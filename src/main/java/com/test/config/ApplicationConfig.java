@@ -7,6 +7,8 @@ package com.test.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
@@ -20,5 +22,14 @@ public class ApplicationConfig extends Application {
         properties.put("jersey.config.server.provider.packages", "com.test.rest");
         return properties;
     }
-     
+      
+    @PreDestroy
+    public void preDestroy() {
+      System.out.println("************************** @PreDestroy **************************************");
+    }
+    
+    @PostConstruct
+    public void postConstruct() {
+      System.out.println("************************** @postConstruct **************************************");
+    }
 }
