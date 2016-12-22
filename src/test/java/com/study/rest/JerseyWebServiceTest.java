@@ -24,7 +24,7 @@ public class JerseyWebServiceTest extends JerseyTest {
 	 * @Override protected URI getBaseUri() { return
 	 * UriBuilder.fromUri("http://localhost/").port(8080).build(); }
 	 */
-
+ 
 	/*
 	 * @Override protected DeploymentContext configureDeployment() {
 	 * forceSet(TestProperties.CONTAINER_PORT, "0"); return
