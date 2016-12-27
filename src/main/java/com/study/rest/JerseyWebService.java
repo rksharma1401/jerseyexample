@@ -22,6 +22,7 @@ import javax.inject.Singleton;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.print.attribute.standard.Media;
 import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -32,6 +33,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
@@ -344,6 +346,7 @@ public class JerseyWebService {
 
 	@Path("streaming")
 	@GET
+	@Produces(MediaType.TEXT_PLAIN)
 	public ChunkedOutput<String> getChunkedStream() throws Exception {
 		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
 
