@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import javax.inject.Singleton;
@@ -36,12 +37,12 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.glassfish.jersey.client.rx.Rx;
 import org.glassfish.jersey.client.rx.rxjava.RxObservableInvoker;
 import org.glassfish.jersey.jackson.JacksonFeature;
-
-import javax.ws.rs.core.StreamingOutput;
+import org.glassfish.jersey.server.ChunkedOutput;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,82 +62,85 @@ import rx.functions.Action1;
 @Singleton
 @Path("jws")
 public class JerseyWebService {
-	Date dt=null;
-	public JerseyWebService(){
-	 dt=new Date();
-	} 
-	
-	
+
+	Date dt = null;
+
+	public JerseyWebService() {
+		super();
+		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
+		dt = new Date();
+	}
+
 	@GET
 	@Path("getInitDate")
-	public String getInitDate(){ 
+	public String getInitDate() {
 		return dt.toString();
 	}
-	
-	  
+
 	@GET
-    @Path("testDatabase")
-    public String testDatabase() throws ClassNotFoundException {
-    	String response="inital";
-    	 // Get DataSource from JNDI (defined in context.xml file)
-        Context ctx;
-        Class.forName("com.mysql.jdbc.Driver");
+	@Path("testDatabase")
+	public String testDatabase() throws ClassNotFoundException {
+		String response = "inital";
+		// Get DataSource from JNDI (defined in context.xml file)
+		Context ctx;
+		Class.forName("com.mysql.jdbc.Driver");
 		try {
 			ctx = new InitialContext();
-		
-        DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/MySQLDS");
-        Connection c = null;
-        Statement s = null;
- 
-            // Get Connection and Statement from DataSource
-            c = ds.getConnection();
-            s = c.createStatement();
-           ResultSet result= s.executeQuery("show status where `variable_name` = 'Threads_connected'");
-           if(result.next())
-           response= "No of Threads_connected right now : " + result.getString(2);
-           s.close();
-           c.close();
-		} catch (NamingException e) { 
-			response=e.getMessage();
+
+			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/MySQLDS");
+			Connection c = null;
+			Statement s = null;
+
+			// Get Connection and Statement from DataSource
+			c = ds.getConnection();
+			s = c.createStatement();
+			ResultSet result = s.executeQuery("show status where `variable_name` = 'Threads_connected'");
+			if (result.next())
+				response = "No of Threads_connected right now : " + result.getString(2);
+			s.close();
+			c.close();
+		} catch (NamingException e) {
+			response = e.getMessage();
 			e.printStackTrace();
-		} catch (SQLException e) { 
-			response=e.getMessage();
+		} catch (SQLException e) {
+			response = e.getMessage();
 			e.printStackTrace();
 		}
-        return response;
-    }
-	
-	@Path("/resource") 
-	    @GET
-	    public void asyncGet(@Suspended final AsyncResponse asyncResponse) {
-	 
-	        new Thread(new Runnable() {
-	            @Override
-	            public void run() {
-	                String result = veryExpensiveOperation();
-	                asyncResponse.resume(result);
-	            }
-
-				private String veryExpensiveOperation() {
-					 try {
-						Thread.sleep(5000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					return "Done";
-				}
-	  
-	        }).start();
+		return response;
 	}
-	
-	static List<User> pojos =new ArrayList<User>();
+
+	@Path("/resource")
+	@GET
+	public void asyncGet(@Suspended final AsyncResponse asyncResponse) {
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String result = veryExpensiveOperation();
+				asyncResponse.resume(result);
+			}
+
+			private String veryExpensiveOperation() {
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return "Done";
+			}
+
+		}).start();
+	}
+
+	static List<User> pojos = new ArrayList<User>();
+
 	@GET
 	@Path("getDataAsClient")
 	@Produces("application/json")
-	public Response getDataAsClient() throws InterruptedException{ 
+	public Response getDataAsClient() throws InterruptedException {
 		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class)
 				.target("http://javaresteasydemo-ravikant.rhcloud.com/rest/hello/getDataNoZip/")
-				//.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList")
+				// .target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList")
 				.register(JacksonFeature.class).request().header("key", "12345").rx().get();
 
 		observable.subscribe(new Action1<Response>() {
@@ -144,9 +148,9 @@ public class JerseyWebService {
 			@Override
 			public void call(Response response) {
 				try {
-					System.out.println(" Inside call "); 
+					System.out.println(" Inside call ");
 					ObjectMapper ob = new ObjectMapper();
-					synchronized(pojos){
+					synchronized (pojos) {
 						pojos = ob.convertValue(response.readEntity(List.class), new TypeReference<List<User>>() {
 						});
 					}
@@ -159,32 +163,27 @@ public class JerseyWebService {
 		Thread.sleep(10 * 1000);
 		return Response.status(200).entity(pojos).build();
 	}
-	
+
 	@GET
 	@Path("toHindi/{param : .+}")
-	
-	public String translate(@PathParam("param") String msg){
+
+	public String translate(@PathParam("param") String msg) {
 		Client client = ClientBuilder.newClient();
-		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
-	            + "en" + "&tl=" + "hi" + "&dt=t&q=" +  URLEncoder.encode(msg);
-	 
-	   System.out.println(url);
-		  Response response = client.target(
-				  url
-		  ). request().get(); 
-		  String res=response.readEntity(String.class)
-				  .replaceAll(Pattern.quote("["), "")
-				  .replaceAll(Pattern.quote("\""), "")
-				  .split(",")[0]
-				  ;
+		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "hi"
+				+ "&dt=t&q=" + URLEncoder.encode(msg);
+
+		System.out.println(url);
+		Response response = client.target(url).request().get();
+		String res = response.readEntity(String.class).replaceAll(Pattern.quote("["), "")
+				.replaceAll(Pattern.quote("\""), "").split(",")[0];
 		return res;
 	}
-	
+
 	@GET
 	@Path("checkValidity/{param}")
 	public boolean isUserValid(@PathParam("param") String msg) throws NumberFormatException, InterruptedException {
 
-		boolean isValid=UserLoginService.isValid(Integer.parseInt(msg));
+		boolean isValid = UserLoginService.isValid(Integer.parseInt(msg));
 
 		return isValid;
 
@@ -196,30 +195,28 @@ public class JerseyWebService {
 
 		String output = "Jersey say : " + msg;
 		return Response.status(200).entity(output)
-				/*.cookie(
-			        new NewCookie(
-			            "userAccessToken", "token", "/", "", 
-			            "what is this", 3600, false
-			        )
-			    )*/
-				.header("Set-Cookie", "userAccessToken=toke;lang=en-US; Path=/; Domain=localhost")
-				.build(); 
-			    
+				/*
+				 * .cookie( new NewCookie( "userAccessToken", "token", "/", "",
+				 * "what is this", 3600, false ) )
+				 */
+				.header("Set-Cookie", "userAccessToken=toke;lang=en-US; Path=/; Domain=localhost").build();
+
 	}
 
-	@GET 
-	public Response info()  {
+	@GET
+	public Response info() {
 		String output = "Hello from jersey !!!!!!!!!!!!!";
-		 	CacheControl cc = new CacheControl();
-		    cc.setMaxAge(120);
-		    cc.setPrivate(false);
-		    cc.setNoStore(false);
-		    cc.setNoTransform(false);
-		    cc.setNoCache(false);;
-		    System.out.println("in info");
-		    ResponseBuilder builder = Response.ok(output);
-		    builder.cacheControl(cc);
-		    return builder.build();
+		CacheControl cc = new CacheControl();
+		cc.setMaxAge(120);
+		cc.setPrivate(false);
+		cc.setNoStore(false);
+		cc.setNoTransform(false);
+		cc.setNoCache(false);
+		;
+		System.out.println("in info");
+		ResponseBuilder builder = Response.ok(output);
+		builder.cacheControl(cc);
+		return builder.build();
 
 	}
 
@@ -275,57 +272,57 @@ public class JerseyWebService {
 	}
 
 	@GET
-	@Path("getUserList") 
+	@Path("getUserList")
 	@Produces("application/json")
 	public Response getDataNoZip() {
-		ArrayList/*<study.vo.User>*/ llstUser=new ArrayList<User>();
-		for(int i=0;i<50;i++){
-			User r=new User();
+		ArrayList/* <study.vo.User> */ llstUser = new ArrayList<User>();
+		for (int i = 0; i < 50; i++) {
+			User r = new User();
 			r.setCompany("wp");
 			r.setPost("Devloper");
 			r.setName("userName");
 			llstUser.add(r);
 		}
-		GenericEntity<ArrayList> list = new GenericEntity<ArrayList> (llstUser) {
-        };
-        GenericEntity<List<User>> users = new GenericEntity<List<User>>(llstUser) {};  
+		GenericEntity<ArrayList> list = new GenericEntity<ArrayList>(llstUser) {
+		};
+		GenericEntity<List<User>> users = new GenericEntity<List<User>>(llstUser) {
+		};
 		return Response.status(200).entity(users).build();
 
 	}
-	
+
 	@GET
-	@Path("getListRes") 
+	@Path("getListRes")
 	@Produces("application/json")
 	public Response getListResponse() {
 
 		List<Response> responses = new ArrayList<>();
-	    responses.add(Response.ok().build());
-	    responses.add(Response.notModified().build());
-	    responses.add(Response.noContent().build());
-		GenericEntity<List> list = new GenericEntity<List> (responses) {}; 
+		responses.add(Response.ok().build());
+		responses.add(Response.notModified().build());
+		responses.add(Response.noContent().build());
+		GenericEntity<List> list = new GenericEntity<List>(responses) {
+		};
 		return Response.status(200).entity(list).build();
 
 	}
-	
+
 	@GET
-	@Path("getObj/{param}") 
+	@Path("getObj/{param}")
 	@Produces("application/json")
 	public Response getObj(@PathParam("param") String msg) {
 
 		ListUser responses = new ListUser();
-	    responses.add(new User("1"));
-	    responses.add(new User("2"));
-	    responses.add(new User("3")); 
-		if("list".equals(msg))
+		responses.add(new User("1"));
+		responses.add(new User("2"));
+		responses.add(new User("3"));
+		if ("list".equals(msg))
 			return Response.status(200).entity(responses).build();
-		User u=new User();
+		User u = new User();
 		u.setName("Developer");
 		return Response.status(200).entity(u).build();
-		
 
 	}
-	
-	
+
 	@GET
 	@Path("getMap")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -338,13 +335,43 @@ public class JerseyWebService {
 		return jsonString;
 
 	}
-	
+
 	@GET
 	@Path("test401withcontent")
-	public Response get401TestWithContent()
-	{
-	    return Response.status(401).entity("return some text").build();     
+	public Response get401TestWithContent() {
+		return Response.status(401).entity("return some text").build();
+	}
+
+	@Path("streaming")
+	@GET
+	public ChunkedOutput<String> getChunkedStream() throws Exception {
+		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					String chunk = "Message";
+
+					for (int i = 0; i < 10; i++) {
+						output.write(chunk + "#" + i);
+						Thread.sleep(1000);
+					}
+				} catch (Exception e) {
+				} finally {
+					try {
+						output.close();
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+		}).start();
+		return output;
 	}
 
 }
-class ListUser extends ArrayList<User> {}
+
+class ListUser extends ArrayList<User> {
+}
