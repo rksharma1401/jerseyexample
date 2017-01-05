@@ -22,7 +22,6 @@ import javax.inject.Singleton;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.print.attribute.standard.Media;
 import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -33,7 +32,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
@@ -357,9 +355,10 @@ public class JerseyWebService {
 			@Override
 			public void run() {
 				try {
-					StringBuffer chunk = new StringBuffer();
+					StringBuffer chunk = null;
 
 					for (int i = 0; i < 10; i++) {
+						 	chunk = new StringBuffer();
 						for (int j = 0; j < val; j++) {
 							chunk.append(" Message #" + i+ "#"+j);
 						}
