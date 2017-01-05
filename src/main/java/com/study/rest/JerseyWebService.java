@@ -362,7 +362,7 @@ public class JerseyWebService {
 						for (int j = 0; j < val; j++) {
 							chunk.append(" Message #" + i+ "#"+j);
 						}
-							output.write(chunk.toString()+"\n");
+							output.write(chunk.toString()+"\r\n");
 						System.out.println("write");
 						Thread.sleep(isleepTime);
 					}
