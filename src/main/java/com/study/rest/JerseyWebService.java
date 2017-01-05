@@ -355,12 +355,15 @@ public class JerseyWebService {
 			@Override
 			public void run() {
 				try {
-					String chunk = "Message";
+					StringBuffer chunk = new StringBuffer();
 
 					for (int i = 0; i < 10; i++) {
-						output.write(chunk + "#" + i);
+						for (int j = 0; j < 1000; j++) {
+							chunk.append("Message #" + i+ "#"+j);
+						}
+							output.write(chunk.toString());
 						System.out.println("write");
-						Thread.sleep(1000);
+						Thread.sleep(2000);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
