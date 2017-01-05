@@ -344,7 +344,7 @@ public class JerseyWebService {
 		return Response.status(401).entity("return some text").build();
 	}
 
-	@Path("streaming")
+	@Path("streaming/{param}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public ChunkedOutput<String> getChunkedStream(@PathParam("param") String msg) throws Exception {
