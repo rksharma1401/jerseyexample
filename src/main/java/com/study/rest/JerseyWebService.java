@@ -344,13 +344,14 @@ public class JerseyWebService {
 		return Response.status(401).entity("return some text").build();
 	}
 
-	@Path("streaming/{param}")
+	@Path("streaming/{param}/{sleepTime}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public ChunkedOutput<String> getChunkedStream(@PathParam("param") String msg) throws Exception {
+	public ChunkedOutput<String> getChunkedStream(@PathParam("param") String loopcount,@PathParam("sleepTime") String sleepTime) throws Exception {
 		 
 		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
-		final Integer val=Integer.parseInt(msg);
+		final Integer val=Integer.parseInt(loopcount);
+		final Integer isleepTime=Integer.parseInt(sleepTime)*1000;
 		new Thread(new Runnable() {
 
 			@Override
@@ -364,7 +365,7 @@ public class JerseyWebService {
 						}
 							output.write(chunk.toString()+"\n");
 						System.out.println("write");
-						Thread.sleep(2000);
+						Thread.sleep(isleepTime);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
