@@ -21,11 +21,11 @@ public class ApplicationConfig extends Application {
 	 
     @Override
     public Map<String, Object> getProperties() {
-    	System.out.println("getProperties:-> CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER_SERVER :" + CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER_SERVER);
+    	
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("jersey.config.server.provider.packages", "com.study.rest");
-        properties.put(ServerProperties.OUTBOUND_CONTENT_LENGTH_BUFFER,"0");
-
+        properties.put(CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER,"0");
+        System.out.println("getProperties:-> CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER_SERVER :" + CommonProperties.getValue(properties,CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER,String.class));
         return properties;
     }
       
@@ -36,7 +36,6 @@ public class ApplicationConfig extends Application {
     
     @PostConstruct
     public void postConstruct() {
-      System.out.println("************************** @postConstruct **************************************");
-      System.out.println("CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER_SERVER :" + CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER_SERVER);
+      System.out.println("************************** @postConstruct **************************************"); 
     }
 }
