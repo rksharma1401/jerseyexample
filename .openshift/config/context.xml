@@ -42,12 +42,12 @@
               maxActive="20"
               maxIdle="15"
               minIdle="11"
-              maxWait=" 
+              maxWait="10000"
 			  removeAbandoned="true" 
 			  removeAbandonedTimeout="60"
 			  testOnBorrow="true"
               validationQuery="SELECT 1"
-              validationInterval="30000"
+              validationInterval="3600000"
               />
                
     <Resource name="jdbc/PostgreSQLDS"
