@@ -20,9 +20,10 @@ public class RunClient {
 		});
 		String chunk;
 		while ((chunk = chunkedInput.read()) != null) {
-			System.out.println("Next chunk received: " + chunk);
+			System.err.println("Next chunk received: " );
+			System.out.println(chunk.substring(0,10));
 		}
-		 Thread.sleep(1000);
+		 Thread.sleep(10000000);
 
 		 
 	}

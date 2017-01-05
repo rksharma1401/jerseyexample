@@ -359,10 +359,10 @@ public class JerseyWebService {
 					StringBuffer chunk = new StringBuffer();
 
 					for (int i = 0; i < 10; i++) {
-						for (int j = 0; j < 1000; j++) {
-							chunk.append("Message #" + i+ "#"+j);
+						for (int j = 0; j < 10000; j++) {
+							chunk.append(" Message #" + i+ "#"+j);
 						}
-							output.write(chunk.toString());
+							output.write(chunk.toString()+"\n");
 						System.out.println("write");
 						Thread.sleep(2000);
 					}
@@ -377,6 +377,7 @@ public class JerseyWebService {
 				}
 			}
 		}).start();
+		
 		return output;
 	}
 
