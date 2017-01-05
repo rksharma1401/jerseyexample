@@ -347,10 +347,10 @@ public class JerseyWebService {
 	@Path("streaming")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public ChunkedOutput<String> getChunkedStream() throws Exception {
+	public ChunkedOutput<String> getChunkedStream(@PathParam("param") String msg) throws Exception {
 		 
 		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
-
+		final Integer val=Integer.parseInt(msg);
 		new Thread(new Runnable() {
 
 			@Override
@@ -359,7 +359,7 @@ public class JerseyWebService {
 					StringBuffer chunk = new StringBuffer();
 
 					for (int i = 0; i < 10; i++) {
-						for (int j = 0; j < 10000; j++) {
+						for (int j = 0; j < val; j++) {
 							chunk.append(" Message #" + i+ "#"+j);
 						}
 							output.write(chunk.toString()+"\n");
