@@ -348,6 +348,7 @@ public class JerseyWebService {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public ChunkedOutput<String> getChunkedStream() throws Exception {
+		 
 		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
 
 		new Thread(new Runnable() {
