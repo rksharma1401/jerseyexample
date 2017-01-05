@@ -26,6 +26,7 @@ import com.study.vo.User;
 
 import rx.functions.Action1;
 
+@SuppressWarnings("all")
 class ListUser extends ArrayList {}
 
 /**
@@ -109,6 +110,7 @@ public class ClientAsync {
 						System.out.println("Time Taken " + (betweenTime - startTime) + TimeUnit.MILLISECONDS);
 					}
 
+					
 					@Override
 					public void failed(Throwable throwable) {
 						System.out.println("Invocation failed due to" + throwable.getMessage());

@@ -359,9 +359,11 @@ public class JerseyWebService {
 
 					for (int i = 0; i < 10; i++) {
 						output.write(chunk + "#" + i);
+						System.out.println("write");
 						Thread.sleep(1000);
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 				} finally {
 					try {
 						output.close();
