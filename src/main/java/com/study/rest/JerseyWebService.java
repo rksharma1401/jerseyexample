@@ -381,6 +381,43 @@ public class JerseyWebService {
 		
 		return output;
 	}
+	
+	@Path("cstreaming/{param}/{sleepTime}")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public ChunkedOutput<String> getContinuosChunkedStream(@PathParam("param") String loopcount,@PathParam("sleepTime") String sleepTime) throws Exception {
+		 
+		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
+		final Integer val=Integer.parseInt(loopcount);
+		final Integer isleepTime=Integer.parseInt(sleepTime);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					String chunk = null;
+
+					for (int i = 0; i < val; i++) {
+						 	chunk ="Hi" ;
+							output.write(chunk.toString()+"\r\n");
+					}
+						System.out.println("write");
+						Thread.sleep(isleepTime);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						System.out.println("output.close();");
+						output.close();
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+		}).start();
+		
+		return output;
+	}
 
 }
 
