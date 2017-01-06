@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
 import javax.inject.Singleton;
@@ -396,9 +397,10 @@ public class JerseyWebService {
 			public void run() {
 				try {
 					String chunk = null;
-
+					int randomNum=0;
 					for (int i = 0; i < val; i++) {
-						 	chunk ="Hi" ;
+							randomNum = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE - 1);
+						 	chunk =Integer.toBinaryString(randomNum) ;
 							output.write(chunk.toString()+"\r\n");
 					}
 						System.out.println("write");
