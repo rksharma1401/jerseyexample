@@ -8,7 +8,7 @@ import javax.ws.rs.PathParam;
 public class OrderService {
 
     @GET
-    @Path("{orderId}")
+    @Path("{orderId}/completed")
     public String getOrders(@PathParam("orderId") String orderId) {
         return "orderId: " + orderId;
     }
