@@ -142,7 +142,7 @@ public class JerseyWebService {
 	public Response getDataAsClient() throws InterruptedException {
 		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class)
 				.register(new LoggingFilter())
-				.target("http://javaresteasydemo-ravikant.rhcloud.com/rest/hello/getDataNoZip/")
+				.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList/")
 				// .target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList")
 				.register(JacksonFeature.class).request().header("key", "12345").rx().get(); 
 		observable.subscribe(new Action1<Response>() {
