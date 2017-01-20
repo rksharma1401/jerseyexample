@@ -174,6 +174,7 @@ public class JerseyWebService {
 		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "hi"
 				+ "&dt=t&q=" + URLEncoder.encode(msg);
 		client.register(new LoggingFilter());
+		client.register(new ReqLoggingFilter());
 		System.out.println(url);
 		Response response = client.target(url).request().get();
 		String res = response.readEntity(String.class).replaceAll(Pattern.quote("["), "")
