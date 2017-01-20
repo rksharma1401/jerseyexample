@@ -42,6 +42,7 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.glassfish.jersey.client.rx.Rx;
 import org.glassfish.jersey.client.rx.rxjava.RxObservableInvoker;
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ChunkedOutput;
 
@@ -172,7 +173,7 @@ public class JerseyWebService {
 		Client client = ClientBuilder.newClient();
 		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "hi"
 				+ "&dt=t&q=" + URLEncoder.encode(msg);
-
+		client.register(new LoggingFilter());
 		System.out.println(url);
 		Response response = client.target(url).request().get();
 		String res = response.readEntity(String.class).replaceAll(Pattern.quote("["), "")
