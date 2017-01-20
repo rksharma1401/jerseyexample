@@ -141,10 +141,10 @@ public class JerseyWebService {
 	@Produces("application/json")
 	public Response getDataAsClient() throws InterruptedException {
 		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class)
+				.register(new LoggingFilter())
 				.target("http://javaresteasydemo-ravikant.rhcloud.com/rest/hello/getDataNoZip/")
 				// .target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList")
-				.register(JacksonFeature.class).request().header("key", "12345").rx().get();
-
+				.register(JacksonFeature.class).request().header("key", "12345").rx().get(); 
 		observable.subscribe(new Action1<Response>() {
 
 			@Override
@@ -173,8 +173,7 @@ public class JerseyWebService {
 		Client client = ClientBuilder.newClient();
 		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "hi"
 				+ "&dt=t&q=" + URLEncoder.encode(msg);
-		client.register(new LoggingFilter());
-		client.register(new ReqLoggingFilter());
+		client.register(new LoggingFilter()); 
 		System.out.println(url);
 		Response response = client.target(url).request().get();
 		String res = response.readEntity(String.class).replaceAll(Pattern.quote("["), "")
