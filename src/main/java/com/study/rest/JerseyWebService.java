@@ -324,7 +324,7 @@ public class JerseyWebService {
 		 return Response.status(200).build();
 	}
 	
-	@GET
+	@POST
 	@Path("getListRequest")
 	@Produces("application/json")
 	@Consumes("application/json")
@@ -336,6 +336,8 @@ public class JerseyWebService {
 		 		  
 		 return Response.status(200).build();
 	}
+	
+	
 
 	@GET
 	@Path("getObj/{param}")
