@@ -324,11 +324,11 @@ public class JerseyWebService {
 		 return Response.status(200).build();
 	}
 	
-	@POST
+	@GET
 	@Path("getListRequest/{listUser}")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response getListRequest(@QueryParam("listUser") ListUser lstUserData) {
+	public Response getListRequest(@PathParam("listUser") ListUser lstUserData) {
 
 		 for (User lUserTemp : lstUserData) {
 			System.out.println("getListRequest : "+ lUserTemp.getName());
