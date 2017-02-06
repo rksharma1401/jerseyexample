@@ -324,7 +324,7 @@ public class JerseyWebService {
 		 return Response.status(200).build();
 	}
 	
-	@GET
+	/*@GET
 	@Path("sendlstUser/{param}") 
 	//@Consumes("application/json")
 	public Response getListRequest(@PathParam("param") ListUser llstUserData) {
@@ -334,7 +334,7 @@ public class JerseyWebService {
 		}
 		 		  
 		 return Response.status(200).build();
-	}
+	}*/
 	
 	
 
