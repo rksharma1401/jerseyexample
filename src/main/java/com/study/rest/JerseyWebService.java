@@ -314,13 +314,13 @@ public class JerseyWebService {
 	@Path("setListReq")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response receiveListRequest(ListGen<String> lstStrData) {
+	public Response receiveListRequest(ListUser lstUserData) {
 
-		 for (String lStrTemp : lstStrData) {
-			System.out.println(lStrTemp);
+		 for (User lUserTemp : lstUserData) {
+			System.out.println(lUserTemp.getName());
 		}
 		 		 
-		 return Response.status(200).entity(lstStrData).build();
+		 return Response.status(200).build();
 	}
 
 	@GET
