@@ -311,7 +311,7 @@ public class JerseyWebService {
 
 	}
 	
-/*	@POST
+	@POST
 	@Path("setListReq")
 	@Produces("application/json")
 	@Consumes("application/json")
@@ -322,12 +322,12 @@ public class JerseyWebService {
 		}
 		 		 
 		 return Response.status(200).build();
-	}*/
+	}
 	
 	@GET
-	@Path("sendlstUser/{listUser}") 
-	@Consumes("application/json")
-	public Response getListRequest(@PathParam("listUser") ListUser llstUserData) {
+	@Path("sendlstUser/{param}") 
+	//@Consumes("application/json")
+	public Response getListRequest(@PathParam("param") ListUser llstUserData) {
 
 		 for (User lUserTemp : llstUserData) {
 			System.out.println("getListRequest : "+ lUserTemp.getName());

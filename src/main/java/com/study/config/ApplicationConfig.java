@@ -33,11 +33,12 @@ public class ApplicationConfig extends Application {
         return properties;
     }
     
+    @Override
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> resources = new HashSet<Class<?>>();
 
         // Add your resources.
-//        resources.add(JerseyWebService.class);
+      //  resources.add(JerseyWebService.class);
 
         // Add additional features such as support for Multipart.
         resources.add(MultiPartFeature.class);
