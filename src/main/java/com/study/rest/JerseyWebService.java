@@ -24,6 +24,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -307,6 +308,19 @@ public class JerseyWebService {
 		return Response.status(200).entity(list).build();
 
 	}
+	
+	@POST
+	@Path("setListReq")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response receiveListRequest(ListGen<String> lstStrData) {
+
+		 for (String lStrTemp : lstStrData) {
+			System.out.println(lStrTemp);
+		}
+		 		 
+		 return Response.status(200).entity(lstStrData).build();
+	}
 
 	@GET
 	@Path("getObj/{param}")
@@ -425,4 +439,7 @@ public class JerseyWebService {
 }
 
 class ListUser extends ArrayList<User> {
+}
+
+class ListGen<T> extends ArrayList<T> {
 }
