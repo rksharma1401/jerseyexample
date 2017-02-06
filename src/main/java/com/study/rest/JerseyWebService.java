@@ -30,6 +30,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -315,6 +316,19 @@ public class JerseyWebService {
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response receiveListRequest(ListUser lstUserData) {
+
+		 for (User lUserTemp : lstUserData) {
+			System.out.println(lUserTemp.getName());
+		}
+		 		 
+		 return Response.status(200).build();
+	}
+	
+	@GET
+	@Path("getListRequest")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response getListRequest(@QueryParam("listUser") ListUser lstUserData) {
 
 		 for (User lUserTemp : lstUserData) {
 			System.out.println(lUserTemp.getName());
