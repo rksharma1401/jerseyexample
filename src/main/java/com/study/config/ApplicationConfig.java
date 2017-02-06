@@ -37,7 +37,7 @@ public class ApplicationConfig extends Application {
         final Set<Class<?>> resources = new HashSet<Class<?>>();
 
         // Add your resources.
-        resources.add(JerseyWebService.class);
+//        resources.add(JerseyWebService.class);
 
         // Add additional features such as support for Multipart.
         resources.add(MultiPartFeature.class);
