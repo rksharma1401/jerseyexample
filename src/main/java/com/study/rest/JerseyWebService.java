@@ -325,12 +325,12 @@ public class JerseyWebService {
 	}
 	
 	@GET
-	@Path("getListRequest/{listUser}")
+	@Path("sendlstUser/{listUser}")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response getListRequest(@PathParam("listUser") ListUser lstUserData) {
+	public Response getListRequest(@PathParam("listUser") ListUser llstUserData) {
 
-		 for (User lUserTemp : lstUserData) {
+		 for (User lUserTemp : llstUserData) {
 			System.out.println("getListRequest : "+ lUserTemp.getName());
 		}
 		 		  
