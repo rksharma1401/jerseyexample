@@ -325,7 +325,7 @@ public class JerseyWebService {
 	}
 	
 	@POST
-	@Path("getListRequest")
+	@Path("getListRequest/{listUser}")
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response getListRequest(@QueryParam("listUser") ListUser lstUserData) {
