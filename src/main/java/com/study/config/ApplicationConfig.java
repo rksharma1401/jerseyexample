@@ -33,7 +33,7 @@ public class ApplicationConfig extends Application {
         return properties;
     }
     
-    @Override
+    /*@Override
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> resources = new HashSet<Class<?>>();
 
@@ -44,7 +44,7 @@ public class ApplicationConfig extends Application {
         resources.add(MultiPartFeature.class);
 
         return resources;
-    }
+    }*/
     @PreDestroy
     public void preDestroy() {
       System.out.println("************************** @PreDestroy **************************************");
