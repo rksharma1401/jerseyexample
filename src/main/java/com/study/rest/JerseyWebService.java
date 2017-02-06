@@ -331,9 +331,9 @@ public class JerseyWebService {
 	public Response getListRequest(@QueryParam("listUser") ListUser lstUserData) {
 
 		 for (User lUserTemp : lstUserData) {
-			System.out.println(lUserTemp.getName());
+			System.out.println("getListRequest : "+ lUserTemp.getName());
 		}
-		 		 
+		 		  
 		 return Response.status(200).build();
 	}
 
