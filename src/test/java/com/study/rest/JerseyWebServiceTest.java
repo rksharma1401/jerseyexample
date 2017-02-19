@@ -69,7 +69,7 @@ public class JerseyWebServiceTest extends JerseyTest {
 	@Test
 	public void testgetMap() {
 		final String hello = target("jws/getMap").request().get(String.class);
-		assertEquals("{\"2\":\"two\",\"1\":\"One\"}", hello);
+		assertEquals("{\"1\":\"One\",\"2\":\"two\"}", hello);
 
 	}
 
