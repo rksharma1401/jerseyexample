@@ -374,10 +374,10 @@ public class JerseyWebService {
 		return Response.status(401).entity("return some text").build();
 	}
 
-	@Path("streaming/{param}/{sleepTime}")
+	@Path("streaming/{loopcount}/{sleepTime}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public ChunkedOutput<String> getChunkedStream(@PathParam("param") String loopcount,@PathParam("sleepTime") String sleepTime) throws Exception {
+	public ChunkedOutput<String> getChunkedStream(@PathParam("loopcount") String loopcount,@PathParam("sleepTime") String sleepTime) throws Exception {
 		 
 		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
 		final Integer val=Integer.parseInt(loopcount);
