@@ -3,7 +3,11 @@
  */
 package com.study.rest;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.sql.Connection;
@@ -30,7 +34,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -47,6 +50,8 @@ import org.glassfish.jersey.client.rx.Rx;
 import org.glassfish.jersey.client.rx.rxjava.RxObservableInvoker;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.server.ChunkedOutput;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -450,6 +455,55 @@ public class JerseyWebService {
 		}).start();
 		
 		return output;
+	}
+	
+	@POST
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path("uploadFile")
+	public Response newFile(@FormDataParam("file") InputStream uploadInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail, @FormDataParam("description") String description) {
+
+	    String uploadFileLocation = "C:/upload/documents/";
+
+	    OutputStream out = null;
+
+	    int read = 0;
+	    byte[] bytes = new byte[1024];
+
+	    File directory = new File(uploadFileLocation);
+	    if(!directory.exists()){
+	        directory.mkdirs();
+	    }
+	    try {
+			out = new FileOutputStream(new File(directory, fileDetail.getFileName()));
+		
+	    while ((read = uploadInputStream.read(bytes)) != -1) {
+	        out.write(bytes, 0, read);
+	    }
+
+	    out.flush();
+	    out.close();
+	    } catch ( Exception e) { 
+			e.printStackTrace();
+		}
+	    return Response.status(200).entity("Succesfull uplaod").build();
+ 
+	}
+	
+	private static final String FILE_PATH = "/log/file.xls";
+
+	@GET
+	@Path("/getxls")
+	@Produces("application/vnd.ms-excel")
+	public Response getFile() {
+
+		File file = new File(FILE_PATH);
+
+		ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition",
+			"attachment; filename=new-excel-file.xls");
+		return response.build();
+
 	}
 
 }
