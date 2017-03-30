@@ -505,6 +505,17 @@ public class JerseyWebService {
 		return response.build();
 
 	}
+	
+	@GET
+	@Path("/getError")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
+	public Response exceptionTester() throws Exception {
+		
+		if(true)
+			throw new Exception();
+		return Response.ok().entity("Exception thrown").build();
+
+	}
 
 }
 
