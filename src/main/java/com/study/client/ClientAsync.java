@@ -124,7 +124,7 @@ public class ClientAsync {
 
 		 
 		Thread.sleep(1 * 1000);
-		if(responseFuture.isDone())
+		if(!responseFuture.isDone())
 		System.out.println("Request Cancelled for not receiving response in time :" +responseFuture.cancel(true));
 		
 		
@@ -151,7 +151,7 @@ public class ClientAsync {
 
 		 
 		Thread.sleep(1 * 1000);
-		if(responseFuture.isDone())
+		if(!responseFuture.isDone())
 		System.out.println("Request Cancelled for not receiving response in time :" +responseFuture.cancel(true));
 		
 		
