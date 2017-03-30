@@ -3,6 +3,8 @@
  */
 package com.study.rest;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 
 import javax.ws.rs.WebApplicationException;
@@ -29,9 +31,12 @@ public class ExceptionConvertor  extends WebApplicationException implements Exce
         response.append("</response>"); 
         if(exception instanceof HTTPException){
         	HTTPException httpException=(HTTPException) exception;
-        	return Response.status(httpException.getStatusCode()).entity(response.toString()).type(MediaType.APPLICATION_XML).build();
+        	return Response.status(httpException.getStatusCode()).build();
         }
-        return Response.serverError().entity(response.toString()).type(MediaType.TEXT_HTML).build();
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        return Response.serverError().entity(sw.toString()).type(MediaType.TEXT_HTML).build();
 	
 	}
 

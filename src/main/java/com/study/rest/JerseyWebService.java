@@ -4,7 +4,6 @@
 package com.study.rest;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -508,13 +507,14 @@ public class JerseyWebService {
 	}
 	
 	@GET
-	@Path("/getError")
+	@Path("/getError/{isHttp}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
-	public Response exceptionTester() throws Exception {
-		
-		if(true)
+	public Response exceptionTester(@PathParam("isHttp") String isHttp) throws Exception {
+		Boolean bIsHttp=new Boolean(isHttp);
+		if(bIsHttp)
 			throw new HTTPException(500);
-		return Response.ok().entity("Exception thrown").build();
+		else
+			throw new Exception("exceptionTester ErrorMessage");
 
 	}
 
