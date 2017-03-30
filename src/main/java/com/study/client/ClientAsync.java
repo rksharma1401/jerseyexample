@@ -24,6 +24,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.vo.User;
 
+import rx.Observer;
+import rx.functions.Action0;
 import rx.functions.Action1;
 
 @SuppressWarnings("all")
@@ -41,36 +43,36 @@ public class ClientAsync {
 
 	public static void main(String[] args) throws Exception {
 		Client client = ClientBuilder.newClient();
-		{
-			String url = "http://jerseyexample-ravikant.rhcloud.com/rest/jws/getObj/list";
-			System.out.println(url);
-			Response response = client.target(url).request().get();
-			ObjectMapper ob = new ObjectMapper();
-
-			Object pojos = response.readEntity(Object.class);
-			System.out.println("Receved instance of " +pojos.getClass());
-			 if(pojos instanceof java.util.ArrayList){
-				ArrayList<User> list =  (ArrayList) pojos;
-				 
-				for (Object pojo : list) {
-					User user = ob.convertValue(pojo, User.class);
-					System.out.println(user.getName());
-				}
-			}else{
-				System.out.println("user");
-				User user = ob.convertValue(pojos, User.class);
-				System.out.println(user.getName());
-			} 
-			 System.exit(0);
-		}
+//		{s
+//			String url = "http://jerseyexample-ravikant.rhcloud.com/rest/jws/getObj/list";
+//			System.out.println(url);
+//			Response response = client.target(url).request().get();
+//			ObjectMapper ob = new ObjectMapper();
+//
+//			Object pojos = response.readEntity(Object.class);
+//			System.out.println("Receved instance of " +pojos.getClass());
+//			 if(pojos instanceof java.util.ArrayList){
+//				ArrayList<User> list =  (ArrayList) pojos;
+//				 
+//				for (Object pojo : list) {
+//					User user = ob.convertValue(pojo, User.class);
+//					System.out.println(user.getName());
+//				}
+//			}else{
+//				System.out.println("user");
+//				User user = ob.convertValue(pojos, User.class);
+//				System.out.println(user.getName());
+//			} 
+//			 System.exit(0);
+//		}
 		
 			
-			
+		/*	
 		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class)
 //				.target("http://javaresteasydemo-ravikant.rhcloud.com/rest/hello/getDataNoZip/")
 				.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getDataAsClient")
 				.register(JacksonFeature.class).request().header("key", "12345").rx().get();
-
+		
 		observable.subscribe(new Action1<Response>() {
 
 			@Override
@@ -95,11 +97,11 @@ public class ClientAsync {
 		Thread.sleep(50 * 1000);
 		System.exit(1);
 
-	 
+	 */
 		 
 		final long startTime = new Date().getTime();
 
-		responseFuture = client.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/test401withcontent")
+		responseFuture = client.target("https://jerseyexample-ravikant.rhcloud.com/rest/jws/test401withcontent")
 				.request().async().get(new InvocationCallback<Response>() {
 
 					@Override
@@ -113,51 +115,58 @@ public class ClientAsync {
 					
 					@Override
 					public void failed(Throwable throwable) {
-						System.out.println("Invocation failed due to" + throwable.getMessage());
-						// throwable.printStackTrace();
+						System.out.println("Invocation failed due to" + throwable.getMessage()); 
 						System.out.println("is isCancelled " + responseFuture.isCancelled());
+						if(responseFuture.isCancelled()){responseFuture.cancel(true);}
 					}
 
 				});
 
-		// System.out.println(responseFuture.cancel(true));
-
-		Future<String> future1 = client.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/test401withcontent")
-				.request().async().get(String.class);
-		try {
-			System.err.println("future1 Response" + future1.get(6000, TimeUnit.MILLISECONDS));
-
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-			future1.cancel(true); // this method will stop
-									// running underlying
-									// task
-		}
-
-		/*
-		 * Future<Response> response = ClientBuilder.newClient()
-		 * .target("http://example.com/resource") .request() .async() .get();
-		 */
-
-		System.out.println("Main");
+		 
+		Thread.sleep(1 * 1000);
+		if(responseFuture.isDone())
+		System.out.println("Request Cancelled for not receiving response in time :" +responseFuture.cancel(true));
 		
 		
-		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
-	            + "en" + "&tl=" + "hi" + "&dt=t&q=" +  URLEncoder.encode("Hello | how are you");
-	   System.out.println(url);
-		  Response response = client.target(
-				  url
-		  ). request().get();
-		  //[[["नमस्कार कैसे","Hello how",,,1]],,"en"]
-		  String res=response.readEntity(String.class);
-		  System.out.println(res);
-		  	res= res.replaceAll(Pattern.quote("["), "")
-				  .replaceAll(Pattern.quote("\""), "")
-				  .split(",")[0]
-				  ;
-		    System.out.println(res);
-		  
-		  System.exit(0);
+		responseFuture = client.target("https://jerseyexample-ravikant.rhcloud.com/rest/jws/getError")
+				.request().async().get(new InvocationCallback<Response>() {
+
+					@Override
+					public void completed(Response response) {
+						System.out.println("Response status code " + response.getStatus() + " received." + "\nMessage :"
+								+ response.readEntity(String.class));
+						betweenTime = new Date().getTime();
+						System.out.println("Time Taken " + (betweenTime - startTime) + TimeUnit.MILLISECONDS);
+					}
+
+					
+					@Override
+					public void failed(Throwable throwable) {
+						System.out.println("Invocation failed due to" + throwable.getMessage()); 
+						System.out.println("is isCancelled " + responseFuture.isCancelled());
+						if(responseFuture.isCancelled()){responseFuture.cancel(true);}
+					}
+
+				});
+
+		 
+		Thread.sleep(1 * 1000);
+		if(responseFuture.isDone())
+		System.out.println("Request Cancelled for not receiving response in time :" +responseFuture.cancel(true));
+		
+		
+		
+//		Future<String> future1 = client.target("https://jerseyexample-ravikant.rhcloud.com/rest/jws/getError")
+//				.request().async().get(String.class);
+//		try {
+//			System.err.println("future1 Response" + future1.get(6000, TimeUnit.MILLISECONDS));
+//
+//		} catch (Exception e) {
+//			System.err.println(e.getMessage());
+//			future1.cancel(true); // this method will stop running underlying task
+//		}
+		
+		Thread.sleep(5 * 1000);
+		System.exit(0);
 	}
-
 }

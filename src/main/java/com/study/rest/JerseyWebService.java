@@ -45,6 +45,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
+import javax.xml.ws.http.HTTPException;
 
 import org.glassfish.jersey.client.rx.Rx;
 import org.glassfish.jersey.client.rx.rxjava.RxObservableInvoker;
@@ -512,7 +513,7 @@ public class JerseyWebService {
 	public Response exceptionTester() throws Exception {
 		
 		if(true)
-			throw new Exception();
+			throw new HTTPException(500);
 		return Response.ok().entity("Exception thrown").build();
 
 	}
@@ -520,7 +521,9 @@ public class JerseyWebService {
 }
 
 class ListUser extends ArrayList<User> {
+	private static final long serialVersionUID = 6200328291688791710L;
 }
 
 class ListGen<T> extends ArrayList<T> {
+	private static final long serialVersionUID = -2119658700477976022L;
 }
