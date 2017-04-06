@@ -28,6 +28,8 @@ import javax.inject.Singleton;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -150,11 +152,10 @@ public class JerseyWebService {
 	@Path("getDataAsClient")
 	@Produces("application/json")
 	public Response getDataAsClient() throws InterruptedException {
-		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class)
-				.register(new LoggingFilter())
+		rx.Observable<Response> observable = Rx.newClient(RxObservableInvoker.class).register(new LoggingFilter())
 				.target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList/")
 				// .target("http://jerseyexample-ravikant.rhcloud.com/rest/jws/getUserList")
-				.register(JacksonFeature.class).request().header("key", "12345").rx().get(); 
+				.register(JacksonFeature.class).request().header("key", "12345").rx().get();
 		observable.subscribe(new Action1<Response>() {
 
 			@Override
@@ -183,7 +184,7 @@ public class JerseyWebService {
 		Client client = ClientBuilder.newClient();
 		String url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "hi"
 				+ "&dt=t&q=" + URLEncoder.encode(msg);
-		client.register(new LoggingFilter()); 
+		client.register(new LoggingFilter());
 		System.out.println(url);
 		Response response = client.target(url).request().get();
 		String res = response.readEntity(String.class).replaceAll(Pattern.quote("["), "")
@@ -214,8 +215,7 @@ public class JerseyWebService {
 				.header("Set-Cookie", "userAccessToken=toke;lang=en-US; Path=/; Domain=localhost").build();
 
 	}
-	
-	
+
 	@GET
 	public Response info() {
 		String output = "Hello from jersey !!!!!!!!!!!!!";
@@ -318,33 +318,31 @@ public class JerseyWebService {
 		return Response.status(200).entity(list).build();
 
 	}
-	
+
 	@POST
 	@Path("setListReq")
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response receiveListRequest(ListUser lstUserData) {
 
-		 for (User lUserTemp : lstUserData) {
+		for (User lUserTemp : lstUserData) {
 			System.out.println(lUserTemp.getName());
 		}
-		 		 
-		 return Response.status(200).build();
-	}
-	
-	/*@GET
-	@Path("sendlstUser/{param}") 
-	//@Consumes("application/json")
-	public Response getListRequest(@PathParam("param") ListUser llstUserData) {
 
-		 for (User lUserTemp : llstUserData) {
-			System.out.println("getListRequest : "+ lUserTemp.getName());
-		}
-		 		  
-		 return Response.status(200).build();
-	}*/
-	
-	
+		return Response.status(200).build();
+	}
+
+	/*
+	 * @GET
+	 * 
+	 * @Path("sendlstUser/{param}") //@Consumes("application/json") public
+	 * Response getListRequest(@PathParam("param") ListUser llstUserData) {
+	 * 
+	 * for (User lUserTemp : llstUserData) {
+	 * System.out.println("getListRequest : "+ lUserTemp.getName()); }
+	 * 
+	 * return Response.status(200).build(); }
+	 */
 
 	@GET
 	@Path("getObj/{param}")
@@ -385,11 +383,12 @@ public class JerseyWebService {
 	@Path("streaming/{loopcount}/{sleepTime}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public ChunkedOutput<String> getChunkedStream(@PathParam("loopcount") String loopcount,@PathParam("sleepTime") String sleepTime) throws Exception {
-		 
+	public ChunkedOutput<String> getChunkedStream(@PathParam("loopcount") String loopcount,
+			@PathParam("sleepTime") String sleepTime) throws Exception {
+
 		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
-		final Integer val=Integer.parseInt(loopcount);
-		final Integer isleepTime=Integer.parseInt(sleepTime)*1000;
+		final Integer val = Integer.parseInt(loopcount);
+		final Integer isleepTime = Integer.parseInt(sleepTime) * 1000;
 		new Thread(new Runnable() {
 
 			@Override
@@ -398,11 +397,11 @@ public class JerseyWebService {
 					StringBuffer chunk = null;
 
 					for (int i = 0; i < 10; i++) {
-						 	chunk = new StringBuffer();
+						chunk = new StringBuffer();
 						for (int j = 0; j < val; j++) {
-							chunk.append(" Message #" + i+ "#"+j);
+							chunk.append(" Message #" + i + "#" + j);
 						}
-							output.write(chunk.toString()+"\r\n");
+						output.write(chunk.toString() + "\r\n");
 						System.out.println("write");
 						Thread.sleep(isleepTime);
 					}
@@ -418,32 +417,33 @@ public class JerseyWebService {
 				}
 			}
 		}).start();
-		
+
 		return output;
 	}
-	
+
 	@Path("cstreaming/{param}/{sleepTime}")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public ChunkedOutput<String> getContinuosChunkedStream(@PathParam("param") String loopcount,@PathParam("sleepTime") String sleepTime) throws Exception {
-		 
+	public ChunkedOutput<String> getContinuosChunkedStream(@PathParam("param") String loopcount,
+			@PathParam("sleepTime") String sleepTime) throws Exception {
+
 		final ChunkedOutput<String> output = new ChunkedOutput<>(String.class);
-		final Integer val=Integer.parseInt(loopcount);
-		final Integer isleepTime=Integer.parseInt(sleepTime);
+		final Integer val = Integer.parseInt(loopcount);
+		final Integer isleepTime = Integer.parseInt(sleepTime);
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				try {
 					String chunk = null;
-					int randomNum=0;
+					int randomNum = 0;
 					for (int i = 0; i < val; i++) {
-							randomNum = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE - 1);
-						 	chunk =Integer.toBinaryString(randomNum) ;
-							output.write(chunk.toString()+"\r\n");
+						randomNum = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE - 1);
+						chunk = Integer.toBinaryString(randomNum);
+						output.write(chunk.toString() + "\r\n");
 					}
-						System.out.println("write");
-						Thread.sleep(isleepTime);
+					System.out.println("write");
+					Thread.sleep(isleepTime);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -456,80 +456,87 @@ public class JerseyWebService {
 				}
 			}
 		}).start();
-		
+
 		return output;
 	}
-	
+
 	@POST
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("uploadFile")
-	public Response newFile(@FormDataParam("file") InputStream uploadInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail, @FormDataParam("description") String description) {
-		 try {
-	    String uploadFileLocation = "/var/lib/openshift/58231da67628e1e3e1000009/app-root/logs";
+	public Response newFile(@FormDataParam("file") InputStream uploadInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileDetail,
+			@FormDataParam("description") String description) {
+		try {
+			String uploadFileLocation = "/var/lib/openshift/58231da67628e1e3e1000009/app-root/logs";
 
-	    OutputStream out = null;
+			OutputStream out = null;
 
-	    int read = 0;
-	    byte[] bytes = new byte[1024];
+			int read = 0;
+			byte[] bytes = new byte[1024];
 
-	    File directory = new File(uploadFileLocation);
-	    if(!directory.exists()){
-	        directory.mkdirs();
-	    }
-	   
+			File directory = new File(uploadFileLocation);
+			if (!directory.exists()) {
+				directory.mkdirs();
+			}
+
 			out = new FileOutputStream(new File(directory, fileDetail.getFileName()));
-		
-	    while ((read = uploadInputStream.read(bytes)) != -1) {
-	        out.write(bytes, 0, read);
-	    }
 
-	    out.flush();
-	    out.close();
-	    } catch ( Exception e) { 
+			while ((read = uploadInputStream.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+
+			out.flush();
+			out.close();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	    return Response.status(200).entity("Succesfull uplaod").build();
- 
+		return Response.status(200).entity("Succesfull uplaod").build();
+
 	}
-	
+
 	@POST
 	@Path("redirect")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response redirect(@FormDataParam("file") InputStream uploadInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail, @FormDataParam("description") String description) {
-		try{
-		String uploadFileLocation = "/var/lib/openshift/58231da67628e1e3e1000009/app-root/logs";
+	public void redirect(@FormDataParam("file") InputStream uploadInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileDetail,
+			@FormDataParam("description") String description,
+			@javax.ws.rs.core.Context HttpServletRequest servletRequest,
+			@javax.ws.rs.core.Context HttpServletResponse servletResponse) {
 
-		    OutputStream out = null;
-
-		    int read = 0;
-		    byte[] bytes = new byte[1024];
-
-		    File directory = new File(uploadFileLocation);
-		    if(!directory.exists()){
-		        directory.mkdirs();
-		    }
-		   
-				out = new FileOutputStream(new File(directory, fileDetail.getFileName()));
-			
-		    while ((read = uploadInputStream.read(bytes)) != -1) {
-		        out.write(bytes, 0, read);
-		    }
-
-		    out.flush();
-		    out.close();
-		    } catch ( Exception e) { 
-				e.printStackTrace();
-			} 
-		String output = "Redirect"; 
-		URI uri=null;
 		try {
-			uri = new URI("http://jerseyexample-ravikant.rhcloud.com/print.jsp");
-		} catch (URISyntaxException e) { 
+
+			String uploadFileLocation = "/var/lib/openshift/58231da67628e1e3e1000009/app-root/logs";
+
+			OutputStream out = null;
+
+			int read = 0;
+			byte[] bytes = new byte[1024];
+
+			File directory = new File(uploadFileLocation);
+			if (!directory.exists()) {
+				directory.mkdirs();
+			}
+
+			out = new FileOutputStream(new File(directory, fileDetail.getFileName()));
+
+			while ((read = uploadInputStream.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+
+			out.flush();
+			out.close();
+
+			String output = "Redirect";
+			servletRequest.setAttribute("Redirect", output);
+			servletRequest.getRequestDispatcher("http://jerseyexample-ravikant.rhcloud.com/print.jsp").forward(servletRequest, servletResponse);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return Response.seeOther(uri).entity(output).build();
+
 	}
 
 	private static final String FILE_PATH = "/log/file.xls";
@@ -542,18 +549,17 @@ public class JerseyWebService {
 		File file = new File(FILE_PATH);
 
 		ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition",
-			"attachment; filename=new-excel-file.xls");
+		response.header("Content-Disposition", "attachment; filename=new-excel-file.xls");
 		return response.build();
 
 	}
-	
+
 	@GET
 	@Path("/getError/{isHttp}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
 	public Response exceptionTester(@PathParam("isHttp") String isHttp) throws Exception {
-		Boolean bIsHttp=new Boolean(isHttp);
-		if(bIsHttp)
+		Boolean bIsHttp = new Boolean(isHttp);
+		if (bIsHttp)
 			throw new HTTPException(500);
 		else
 			throw new Exception("exceptionTester ErrorMessage");
