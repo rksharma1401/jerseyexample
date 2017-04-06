@@ -493,7 +493,7 @@ public class JerseyWebService {
  
 	}
 	
-	@GET
+	@POST
 	@Path("redirect")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
