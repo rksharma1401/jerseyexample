@@ -495,6 +495,8 @@ public class JerseyWebService {
 	
 	@GET
 	@Path("redirect")
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response redirect(@FormDataParam("file") InputStream uploadInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail, @FormDataParam("description") String description) {
 		try{
 		String uploadFileLocation = "/var/lib/openshift/58231da67628e1e3e1000009/app-root/logs";
