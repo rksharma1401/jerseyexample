@@ -499,7 +499,7 @@ public class JerseyWebService {
 	@Path("redirect")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public void redirect(@FormDataParam("file") InputStream uploadInputStream,
+	public Response redirect(@FormDataParam("file") InputStream uploadInputStream,
 			@FormDataParam("file") FormDataContentDisposition fileDetail,
 			@FormDataParam("description") String description,
 			@javax.ws.rs.core.Context HttpServletRequest servletRequest,
@@ -528,14 +528,14 @@ public class JerseyWebService {
 			out.flush();
 			out.close();
 
-			String output = "Redirect";
-			servletRequest.setAttribute("Redirect", output);
-			servletRequest.getRequestDispatcher("http://jerseyexample-ravikant.rhcloud.com/print.jsp").forward(servletRequest, servletResponse);
+			String output = "Redirect"; 
+			servletResponse.sendRedirect("http://jerseyexample-ravikant.rhcloud.com/print.jsp?output="+output);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 
 	}
 
