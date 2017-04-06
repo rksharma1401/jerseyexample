@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -212,7 +214,8 @@ public class JerseyWebService {
 				.header("Set-Cookie", "userAccessToken=toke;lang=en-US; Path=/; Domain=localhost").build();
 
 	}
-
+	
+	
 	@GET
 	public Response info() {
 		String output = "Hello from jersey !!!!!!!!!!!!!";
@@ -462,8 +465,8 @@ public class JerseyWebService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("uploadFile")
 	public Response newFile(@FormDataParam("file") InputStream uploadInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail, @FormDataParam("description") String description) {
-
-	    String uploadFileLocation = "C:/upload/documents/";
+		 try {
+	    String uploadFileLocation = "/var/lib/openshift/58231da67628e1e3e1000009/app-root/logs";
 
 	    OutputStream out = null;
 
@@ -474,7 +477,7 @@ public class JerseyWebService {
 	    if(!directory.exists()){
 	        directory.mkdirs();
 	    }
-	    try {
+	   
 			out = new FileOutputStream(new File(directory, fileDetail.getFileName()));
 		
 	    while ((read = uploadInputStream.read(bytes)) != -1) {
@@ -490,6 +493,43 @@ public class JerseyWebService {
  
 	}
 	
+	@GET
+	@Path("redirect")
+	public Response redirect(@FormDataParam("file") InputStream uploadInputStream, @FormDataParam("file") FormDataContentDisposition fileDetail, @FormDataParam("description") String description) {
+		try{
+		String uploadFileLocation = "/var/lib/openshift/58231da67628e1e3e1000009/app-root/logs";
+
+		    OutputStream out = null;
+
+		    int read = 0;
+		    byte[] bytes = new byte[1024];
+
+		    File directory = new File(uploadFileLocation);
+		    if(!directory.exists()){
+		        directory.mkdirs();
+		    }
+		   
+				out = new FileOutputStream(new File(directory, fileDetail.getFileName()));
+			
+		    while ((read = uploadInputStream.read(bytes)) != -1) {
+		        out.write(bytes, 0, read);
+		    }
+
+		    out.flush();
+		    out.close();
+		    } catch ( Exception e) { 
+				e.printStackTrace();
+			} 
+		String output = "Redirect"; 
+		URI uri=null;
+		try {
+			uri = new URI("http://jerseyexample-ravikant.rhcloud.com/print.jsp");
+		} catch (URISyntaxException e) { 
+			e.printStackTrace();
+		}
+		return Response.seeOther(uri).entity(output).build();
+	}
+
 	private static final String FILE_PATH = "/log/file.xls";
 
 	@GET
