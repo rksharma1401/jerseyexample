@@ -28,6 +28,7 @@ public class ApplicationConfig extends Application {
     	
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put("jersey.config.server.provider.packages", "com.study.rest");
+        properties.put("jersey.config.server.wadl.disableWadl", "true");
         properties.put("jersey.config.server.provider.classnames","org.glassfish.jersey.media.multipart.MultiPartFeature");
         properties.put(CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER,"0");
         System.out.println("getProperties:-> CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER_SERVER :" + CommonProperties.getValue(properties,CommonProperties.OUTBOUND_CONTENT_LENGTH_BUFFER,String.class));
