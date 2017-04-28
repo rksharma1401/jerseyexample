@@ -258,6 +258,31 @@ public class JerseyWebService {
 		// return stream;
 		return Response.ok(stream).build();
 	}
+	@GET 
+	@Produces({MediaType.MULTIPART_FORM_DATA})
+	@Path("getMultiFormData")
+	// public StreamingOutput streamExample() {
+	public Response getMultiFormData() {
+		StreamingOutput stream = new StreamingOutput() {
+			@Override
+			public void write(OutputStream os) throws IOException, WebApplicationException {
+				Document document = new Document();
+				try {
+					PdfWriter.getInstance(document, os);
+					document.open();
+					document.add(new Paragraph(new Date().toString()));
+					for (int i = 0; i < 99999; i++)
+						document.add(new Paragraph("howtodoinjava.com"));
+					document.add(new Paragraph(new Date().toString()));
+					document.close();
+				} catch (DocumentException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		// return stream;
+		return Response.ok(stream).build();
+	}
 
 	@GET
 	@Produces("application/pdf")
