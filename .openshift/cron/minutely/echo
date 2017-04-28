@@ -1,5 +1,3 @@
 #!/bin/bash
 
-echo $HOME 
-echo "from minutely"
-echo
+echo $HOME >> $HOME/app-root/logs/echo.log
