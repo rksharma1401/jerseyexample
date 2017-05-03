@@ -17,10 +17,10 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-<!-- 		<repository>
+		<repository>
 			<id>JBoss repository</id>
 			<url>http://repository.jboss.com/maven2/</url>
-		</repository> -->
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
