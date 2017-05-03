@@ -20,8 +20,10 @@ public class UserLoginService {
 		 
 		Session session=HibernateConnection.getSession();
 		Transaction tx=session.beginTransaction();
-		u=(User) session.save(u);
+		Integer id=(Integer) session.save(u);
 		tx.commit();
+		System.out.println("createUser : User created for Id " + id);
+		u.setId(id);
 		return u;
 	}
 	
