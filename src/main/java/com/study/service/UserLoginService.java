@@ -4,6 +4,7 @@
 package com.study.service;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.study.db.HibernateConnection;
 import com.study.vo.User;
@@ -18,7 +19,9 @@ public class UserLoginService {
 		System.out.println("inside createUser");
 		 
 		Session session=HibernateConnection.getSession();
+		Transaction tx=session.beginTransaction();
 		u=(User) session.save(u);
+		tx.commit();
 		return u;
 	}
 	
@@ -26,8 +29,9 @@ public class UserLoginService {
 		System.out.println("inside validation");
 		 
 		Session session=HibernateConnection.getSession();
-		
+		Transaction tx=session.beginTransaction();
 		User user=(User) session.get(User.class, id);
+		tx.commit();
 		 if(user!=null){
 			 return true; 
 		 }
