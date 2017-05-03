@@ -221,7 +221,7 @@ public class JerseyWebService {
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response createUser(User u) {
-		
+		u=UserLoginService.createUser(u);
 		return Response.ok(u).build();
 	}
 	@GET
