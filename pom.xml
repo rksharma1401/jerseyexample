@@ -150,15 +150,17 @@
 		</dependency>
 		<!-- Hibernate annotation -->
 		<dependency>
-			<groupId>hibernate-annotations</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>3.3.0.GA</version>
-		</dependency>
-		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-commons-annotations</artifactId>
-			<version>3.0.0.ga</version>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.5.6-Final</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.common</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>5.0.1.Final</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>
