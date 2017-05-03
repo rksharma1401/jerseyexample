@@ -217,6 +217,7 @@ public class JerseyWebService {
 	}
 
 	@POST
+	@Path("createUser")
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response createUser(User u) {
