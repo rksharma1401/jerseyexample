@@ -194,9 +194,9 @@ public class JerseyWebService {
 
 	@GET
 	@Path("checkValidity/{param}")
-	public boolean isUserValid(@PathParam("param") String msg) throws NumberFormatException, InterruptedException {
+	public boolean isUserValid(@PathParam("param") String id) throws NumberFormatException, InterruptedException {
 
-		boolean isValid = UserLoginService.isValid(Integer.parseInt(msg));
+		boolean isValid = UserLoginService.isValid(Integer.parseInt(id));
 
 		return isValid;
 
@@ -216,6 +216,13 @@ public class JerseyWebService {
 
 	}
 
+	@POST
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response createUser(User u) {
+		
+		return Response.ok(u).build();
+	}
 	@GET
 	public Response info() {
 		String output = "Hello from jersey !!!!!!!!!!!!!";

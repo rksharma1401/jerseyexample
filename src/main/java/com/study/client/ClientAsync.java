@@ -43,7 +43,7 @@ public class ClientAsync {
 
 	public static void main(String[] args) throws Exception {
 		Client client = ClientBuilder.newClient();
-//		{s
+//		{
 //			String url = "http://jerseyexample-ravikant.rhcloud.com/rest/jws/getObj/list";
 //			System.out.println(url);
 //			Response response = client.target(url).request().get();
@@ -101,7 +101,34 @@ public class ClientAsync {
 		 
 		final long startTime = new Date().getTime();
 
-		responseFuture = client.target("https://jerseyexample-ravikant.rhcloud.com/rest/jws/test401withcontent")
+//		responseFuture = client.target("https://jerseyexample-ravikant.rhcloud.com/rest/jws/test401withcontent")
+//				.request().async().get(new InvocationCallback<Response>() {
+//
+//					@Override
+//					public void completed(Response response) {
+//						System.out.println("Response status code " + response.getStatus() + " received." + "\nMessage :"
+//								+ response.readEntity(String.class));
+//						betweenTime = new Date().getTime();
+//						System.out.println("Time Taken " + (betweenTime - startTime) + TimeUnit.MILLISECONDS);
+//					}
+//
+//					
+//					@Override
+//					public void failed(Throwable throwable) {
+//						System.out.println("Invocation failed due to" + throwable.getMessage()); 
+//						System.out.println("is isCancelled " + responseFuture.isCancelled());
+//						if(responseFuture.isCancelled()){responseFuture.cancel(true);}
+//					}
+//
+//				});
+//
+//		 
+//		Thread.sleep(1 * 1000);
+//		if(!responseFuture.isDone())
+//		System.out.println("Request Cancelled for not receiving response in time :" +responseFuture.cancel(true));
+ 	
+		
+		responseFuture = client.target("https://jerseyexample-ravikant.rhcloud.com/rest/jws/getError/true")
 				.request().async().get(new InvocationCallback<Response>() {
 
 					@Override
@@ -123,34 +150,7 @@ public class ClientAsync {
 				});
 
 		 
-		Thread.sleep(1 * 1000);
-		if(!responseFuture.isDone())
-		System.out.println("Request Cancelled for not receiving response in time :" +responseFuture.cancel(true));
-		
-		
-		responseFuture = client.target("https://jerseyexample-ravikant.rhcloud.com/rest/jws/getError")
-				.request().async().get(new InvocationCallback<Response>() {
-
-					@Override
-					public void completed(Response response) {
-						System.out.println("Response status code " + response.getStatus() + " received." + "\nMessage :"
-								+ response.readEntity(String.class));
-						betweenTime = new Date().getTime();
-						System.out.println("Time Taken " + (betweenTime - startTime) + TimeUnit.MILLISECONDS);
-					}
-
-					
-					@Override
-					public void failed(Throwable throwable) {
-						System.out.println("Invocation failed due to" + throwable.getMessage()); 
-						System.out.println("is isCancelled " + responseFuture.isCancelled());
-						if(responseFuture.isCancelled()){responseFuture.cancel(true);}
-					}
-
-				});
-
-		 
-		Thread.sleep(1 * 1000);
+		Thread.sleep(2* 1000);
 		if(!responseFuture.isDone())
 		System.out.println("Request Cancelled for not receiving response in time :" +responseFuture.cancel(true));
 		
