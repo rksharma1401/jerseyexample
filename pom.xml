@@ -17,6 +17,10 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+<!-- 		<repository>
+			<id>JBoss repository</id>
+			<url>http://repository.jboss.com/maven2/</url>
+		</repository> -->
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -139,7 +143,17 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.25</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<!-- Hibernate annotation -->
+		<dependency>
+			<groupId>hibernate-annotations</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.3.0.GA</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>jerseyexample</finalName>
