@@ -611,7 +611,7 @@ public class JerseyWebService {
         json.addProperty("message", "created successful");
         return Response.status(Status.OK).entity(json).type(MediaType.APPLICATION_JSON).build();
     }
-
+ 
 }
 
 class ListUser extends ArrayList<User> {
