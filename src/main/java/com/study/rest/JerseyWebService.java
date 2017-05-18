@@ -49,6 +49,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.xml.ws.http.HTTPException;
 
+import org.codehaus.jettison.json.JSONObject;
 import org.glassfish.jersey.client.rx.Rx;
 import org.glassfish.jersey.client.rx.rxjava.RxObservableInvoker;
 import org.glassfish.jersey.filter.LoggingFilter;
@@ -64,8 +65,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sendpulse.json.JSONException;
-import com.sendpulse.json.JSONObject;
 import com.study.service.UserLoginService;
 import com.study.vo.User;
 
@@ -604,9 +603,9 @@ public class JerseyWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 	@Path("/jsonData")
-    public Response createStudent(JSONObject jsonData) throws JSONException {
+    public Response createStudent(JSONObject jsonData) throws  org.codehaus.jettison.json.JSONException {
         // -- process data
-        JSONObject json = new JSONObject();
+		JSONObject json = new JSONObject();
         System.out.println(jsonData.toString());
         json.put("message", "created successful");
         return Response.status(Status.OK).entity(json).type(MediaType.APPLICATION_JSON).build();
