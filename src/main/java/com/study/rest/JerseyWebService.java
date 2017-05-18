@@ -61,6 +61,7 @@ import org.glassfish.jersey.server.ChunkedOutput;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -603,11 +604,11 @@ public class JerseyWebService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 	@Path("/jsonData")
-    public Response createStudent(JSONObject jsonData) throws  org.codehaus.jettison.json.JSONException {
+    public Response createStudent(JsonObject jsonData)     {
         // -- process data
-		JSONObject json = new JSONObject();
+		JsonObject json = new JsonObject();
         System.out.println(jsonData.toString());
-        json.put("message", "created successful");
+        json.addProperty("message", "created successful");
         return Response.status(Status.OK).entity(json).type(MediaType.APPLICATION_JSON).build();
     }
 
