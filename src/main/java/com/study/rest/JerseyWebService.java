@@ -8,8 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -47,6 +45,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.xml.ws.http.HTTPException;
 
@@ -65,6 +64,8 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sendpulse.json.JSONException;
+import com.sendpulse.json.JSONObject;
 import com.study.service.UserLoginService;
 import com.study.vo.User;
 
@@ -598,6 +599,18 @@ public class JerseyWebService {
 			throw new Exception("exceptionTester ErrorMessage");
 
 	}
+	
+	@POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+	@Path("/jsonData")
+    public Response createStudent(JSONObject jsonData) throws JSONException {
+        // -- process data
+        JSONObject json = new JSONObject();
+        System.out.println(jsonData.toString());
+        json.put("message", "created successful");
+        return Response.status(Status.OK).entity(json).type(MediaType.APPLICATION_JSON).build();
+    }
 
 }
 
