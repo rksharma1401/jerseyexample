@@ -49,7 +49,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 import javax.xml.ws.http.HTTPException;
 
-import org.codehaus.jettison.json.JSONObject;
 import org.glassfish.jersey.client.rx.Rx;
 import org.glassfish.jersey.client.rx.rxjava.RxObservableInvoker;
 import org.glassfish.jersey.filter.LoggingFilter;
