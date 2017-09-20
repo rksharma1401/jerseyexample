@@ -91,7 +91,12 @@
 			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>2.24.1</version>
 		</dependency>
-		
+		<!-- Exclude when build for jboss with sqllite as module -->
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.5.9</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
