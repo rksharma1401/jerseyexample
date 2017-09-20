@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -83,6 +85,7 @@ public class JerseyWebService {
 		super();
 		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
 		dt = new Date();
+		 
 	}
 
 	@GET
@@ -111,6 +114,38 @@ public class JerseyWebService {
 			ResultSet result = s.executeQuery("show status where `variable_name` = 'Threads_connected'");
 			if (result.next())
 				response = "No of Threads_connected right now : " + result.getString(2);
+			s.close();
+			c.close();
+		} catch (NamingException e) {
+			response = e.getMessage();
+			e.printStackTrace();
+		} catch (SQLException e) {
+			response = e.getMessage();
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	@GET
+	@Path("testSQLite")
+	public String testSQLite() throws ClassNotFoundException {
+		String response = "inital";
+		// Get DataSource from JNDI (defined in context.xml file)
+		Context ctx;
+		Class.forName("org.sqlite.JDBC");
+		try {
+			ctx = new InitialContext();
+
+			DataSource ds = (DataSource) ctx.lookup("java:jboss/jdbc/sqlite");
+			Connection c = null;
+			Statement s = null;
+
+			// Get Connection and Statement from DataSource
+			c = ds.getConnection();
+			s = c.createStatement();
+			ResultSet result = s.executeQuery("SELECT * from users");
+			if (result.next())
+				response = "Data " + result.getString(1) + "         " +result.getString(2);
 			s.close();
 			c.close();
 		} catch (NamingException e) {
@@ -611,6 +646,8 @@ public class JerseyWebService {
         return Response.status(Status.OK).entity(json).type(MediaType.APPLICATION_JSON).build();
     }
  
+	 
+
 }
 
 class ListUser extends ArrayList<User> {
