@@ -1,3 +1,0 @@
-#!/bin/bash
-
-echo $HOME >> $HOME/app-root/logs/echo.log
